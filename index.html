@@ -32,7 +32,7 @@
 <body class="bg-bg-light min-h-screen font-sans text-text-dark transition-colors duration-300" id="bodyElement">
 
   <!-- Header -->
-  <header class="bg-pastel-green text-text-dark p-4 shadow-lg">
+  <header class="bg-pastel-green text-text-dark p-4 shadow-lg sticky top-0 z-10">
     <div class="container mx-auto flex justify-between items-center flex-wrap">
       <h1 class="text-2xl font-bold">Dashboard Presupuestal Samegua 2026</h1>
       <div class="flex items-center space-x-4 mt-2 md:mt-0">
@@ -40,91 +40,153 @@
         <button id="darkModeToggle" class="bg-pastel-blue px-3 py-1 rounded text-sm"><i class="fas fa-moon"></i> Modo Oscuro</button>
       </div>
     </div>
+    <!-- Tabs para navegación -->
+    <div class="container mx-auto mt-4">
+      <nav class="flex space-x-4 overflow-x-auto">
+        <button id="tabRanking" class="px-4 py-2 font-semibold bg-white dark:bg-gray-800 rounded-t-lg shadow-md transition-colors">Ranking</button>
+        <button id="tabFunciones" class="px-4 py-2 font-semibold bg-gray-200 dark:bg-gray-700 rounded-t-lg shadow-md transition-colors">Funciones</button>
+        <button id="tabProyectos" class="px-4 py-2 font-semibold bg-gray-200 dark:bg-gray-700 rounded-t-lg shadow-md transition-colors">Proyectos</button>
+      </nav>
+    </div>
   </header>
 
-  <!-- Filtros -->
+  <!-- Contenido principal -->
   <section class="container mx-auto py-6 px-4">
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-8 transition-colors">
-      <h2 class="text-xl font-semibold mb-4">Filtros</h2>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div>
-          <label class="block text-sm font-medium">Año</label>
-          <select id="filtroAnio" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white dark:bg-gray-700">
-            <option value="2026">2026</option>
-          </select>
+
+    <!-- Vista Ranking -->
+    <div id="vistaRanking" class="vista">
+      <!-- KPIs superiores -->
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
+          <p class="text-2xl font-bold text-pastel-blue">S/ 30.1 mill.</p>
+          <h3 class="text-sm">PIA</h3>
         </div>
-        <div>
-          <label class="block text-sm font-medium">Función</label>
-          <select id="filtroFuncion" multiple class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white dark:bg-gray-700">
-            <!-- Se llena dinámicamente -->
-          </select>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
+          <p class="text-2xl font-bold text-pastel-blue">S/ 44.3 mill.</p>
+          <h3 class="text-sm">PIM</h3>
         </div>
-        <div>
-          <label class="block text-sm font-medium">Proyecto (buscar)</label>
-          <input id="filtroProyecto" type="text" placeholder="Nombre o código..." class="mt-1 block w-full border-gray-300 rounded-md shadow-sm bg-white dark:bg-gray-700"/>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
+          <p class="text-2xl font-bold text-pastel-blue">S/ 11.7 mill.</p>
+          <h3 class="text-sm">Certificación</h3>
         </div>
-        <div class="flex items-end space-x-2">
-          <button id="exportCSV" class="bg-pastel-yellow px-3 py-2 rounded text-sm"><i class="fas fa-file-csv"></i> Exportar CSV</button>
-          <button id="exportPDF" class="bg-pastel-blue px-3 py-2 rounded text-sm"><i class="fas fa-file-pdf"></i> Exportar PDF</button>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
+          <p class="text-2xl font-bold text-pastel-blue">S/ 2.7 mill.</p>
+          <h3 class="text-sm">Atención de Compromiso Mensual</h3>
         </div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
+          <p class="text-2xl font-bold text-pastel-blue">S/ 913.0 mil</p>
+          <h3 class="text-sm">Devengado</h3>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow text-center">
+          <p class="text-2xl font-bold text-pastel-blue">S/ 903.9 mil</p>
+          <h3 class="text-sm">Girado</h3>
+        </div>
+      </div>
+      <!-- Layout de gráficos -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Segmentar (Pie) -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Segmentar</h2>
+          <canvas id="chartRankingPie"></canvas>
+          <div class="flex justify-center space-x-4 mt-4">
+            <button class="bg-pastel-blue px-3 py-1 rounded text-sm">Sólo Actividades</button>
+            <button class="bg-pastel-blue px-3 py-1 rounded text-sm">Sólo Proyectos</button>
+          </div>
+        </div>
+        <!-- Ranking Avance % -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Ranking de Avance % Municipales</h2>
+          <canvas id="chartRankingBar"></canvas>
+        </div>
+        <!-- Total Avance Anual (Gauge) + Avance Programado Mensual -->
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Total Avance Anual</h2>
+          <canvas id="chartRankingGauge" height="200"></canvas>
+          <h2 class="text-lg font-semibold mt-6 mb-4">Avance Programado Mensual</h2>
+          <canvas id="chartRankingMonthlyGauge" height="200"></canvas>
+          <div class="text-center mt-4">
+            <p class="text-3xl font-bold">Puesto 20</p>
+            <p class="text-sm">Municipalidad Distrital de Samegua</p>
+          </div>
+        </div>
+      </div>
+      <!-- Progresión Mensual % (Barras verticales) -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mt-6">
+        <h2 class="text-lg font-semibold mb-4">Progresión Mensual %</h2>
+        <canvas id="chartRankingMonthlyBar" height="150"></canvas>
       </div>
     </div>
 
-    <!-- KPIs -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center transition-colors">
-        <h3 class="text-lg font-medium">Avance General</h3>
-        <p id="kpiAvance" class="text-4xl font-bold text-pastel-green">6.6%</p>
+    <!-- Vista Funciones (similar layout adaptado) -->
+    <div id="vistaFunciones" class="vista hidden">
+      <!-- KPIs similares -->
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+        <!-- Reusa o adapta KPIs -->
+        <!-- ... (mismo que arriba) -->
       </div>
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center transition-colors">
-        <h3 class="text-lg font-medium">PIM Total</h3>
-        <p id="kpiPIM" class="text-3xl font-bold">S/ 44.95 M</p>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Distribución por Funciones</h2>
+          <canvas id="chartFuncionesPie"></canvas>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Avance por Funciones</h2>
+          <canvas id="chartFuncionesBar"></canvas>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Avance Total Funciones</h2>
+          <canvas id="chartFuncionesGauge" height="200"></canvas>
+          <h2 class="text-lg font-semibold mt-6 mb-4">Avance Programado</h2>
+          <canvas id="chartFuncionesMonthlyGauge" height="200"></canvas>
+        </div>
       </div>
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center transition-colors">
-        <h3 class="text-lg font-medium">Devengado Total</h3>
-        <p id="kpiDevengado" class="text-3xl font-bold">S/ 2.99 M</p>
-      </div>
-      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow text-center transition-colors">
-        <h3 class="text-lg font-medium">Posición Ranking Provincial</h3>
-        <p id="kpiRanking" class="text-4xl font-bold text-pastel-yellow">Media-Baja</p>
-      </div>
-    </div>
-
-    <!-- Sección Ranking -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-8 transition-colors">
-      <h2 class="text-xl font-semibold mb-4">Ranking Municipalidades - Prov. Mariscal Nieto</h2>
-      <canvas id="chartRanking" height="300"></canvas>
-    </div>
-
-    <!-- Sección Funciones -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mb-8 transition-colors">
-      <h2 class="text-xl font-semibold mb-4">Ejecución por Funciones</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <canvas id="chartFuncionesBar"></canvas>
-        <canvas id="chartFuncionesPie"></canvas>
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mt-6">
+        <h2 class="text-lg font-semibold mb-4">Progresión Mensual Funciones</h2>
+        <canvas id="chartFuncionesMonthlyBar" height="150"></canvas>
       </div>
     </div>
 
-    <!-- Sección Proyectos -->
-    <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow transition-colors">
-      <h2 class="text-xl font-semibold mb-4">Proyectos de Inversión</h2>
-      <div class="overflow-x-auto">
-        <table id="tablaProyectos" class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
-          <thead class="bg-gray-50 dark:bg-gray-700">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase">Proyecto</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase">PIM (S/)</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase">Devengado (S/)</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase">Avance %</th>
-              <th class="px-6 py-3 text-left text-xs font-medium uppercase">Progreso</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-200 dark:divide-gray-600" id="bodyProyectos">
-            <!-- Se llena dinámicamente -->
-          </tbody>
-        </table>
+    <!-- Vista Proyectos (similar layout adaptado) -->
+    <div id="vistaProyectos" class="vista hidden">
+      <!-- KPIs -->
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-4 mb-8">
+        <!-- ... (mismo) -->
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Distribución Proyectos</h2>
+          <canvas id="chartProyectosPie"></canvas>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow overflow-x-auto">
+          <h2 class="text-lg font-semibold mb-4">Tabla Proyectos</h2>
+          <table id="tablaProyectos" class="min-w-full divide-y divide-gray-200 dark:divide-gray-600">
+            <thead class="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Proyecto</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase">PIM (S/)</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Devengado (S/)</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Avance %</th>
+                <th class="px-6 py-3 text-left text-xs font-medium uppercase">Progreso</th>
+              </tr>
+            </thead>
+            <tbody id="bodyProyectos" class="divide-y divide-gray-200 dark:divide-gray-600">
+              <!-- Dinámico -->
+            </tbody>
+          </table>
+        </div>
+        <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+          <h2 class="text-lg font-semibold mb-4">Avance Total Proyectos</h2>
+          <canvas id="chartProyectosGauge" height="200"></canvas>
+          <h2 class="text-lg font-semibold mt-6 mb-4">Avance Programado</h2>
+          <canvas id="chartProyectosMonthlyGauge" height="200"></canvas>
+        </div>
+      </div>
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow mt-6">
+        <h2 class="text-lg font-semibold mb-4">Progresión Mensual Proyectos</h2>
+        <canvas id="chartProyectosMonthlyBar" height="150"></canvas>
       </div>
     </div>
+
   </section>
 
   <footer class="bg-pastel-blue text-text-dark text-center py-4 mt-12">
