@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard Presupuestal – Municipalidad Distrital de Samegua 2026</title>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
@@ -18,154 +18,155 @@
       --dor-cla: #F5E6B8;
       --dor-osc: #A07830;
       --blanco:  #FFFFFF;
-      --bg:      #F2F5F3;
-      --gris:    #E0E6E2;
+      --bg:      #F0F4F2;
+      --gris:    #DDE5E0;
       --gtxt:    #5A6B62;
       --txt:     #1A2E22;
-      --sombra:  0 2px 14px rgba(27,77,53,.10);
-      --shov:    0 6px 24px rgba(27,77,53,.18);
-      --r:       12px;
+      --sombra:  0 2px 16px rgba(27,77,53,.09);
+      --shov:    0 6px 28px rgba(27,77,53,.17);
+      --r:       14px;
     }
     *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     html { scroll-behavior:smooth; }
     body {
-      font-family:'DM Sans',sans-serif;
+      font-family:'Outfit', sans-serif;
       background:var(--bg); color:var(--txt);
-      min-height:100vh; font-size:14px;
+      min-height:100vh; font-size:14px; line-height:1.5;
     }
 
-    /* ── HEADER ── */
+    /* ══ HEADER ══ */
     header {
-      background:linear-gradient(135deg,var(--v-osc) 0%,var(--v-med) 100%);
+      background:linear-gradient(135deg, #112E1F 0%, #1B4D35 45%, #2E7D52 100%);
       color:#fff; position:sticky; top:0; z-index:200;
-      box-shadow:0 4px 20px rgba(0,0,0,.28);
+      box-shadow:0 4px 24px rgba(0,0,0,.32);
     }
     .hdr-top {
       display:flex; align-items:center; justify-content:space-between;
-      padding:12px 24px; flex-wrap:wrap; gap:10px;
+      padding:10px 24px; flex-wrap:wrap; gap:10px;
     }
-    .hdr-brand { display:flex; align-items:center; gap:12px; }
-    .logo {
-      width:48px; height:48px; flex-shrink:0;
-      background:var(--dor); border-radius:50%;
-      display:flex; align-items:center; justify-content:center;
-      font-size:20px; color:var(--v-osc);
-      box-shadow:0 2px 8px rgba(0,0,0,.2);
+    .hdr-brand { display:flex; align-items:center; gap:14px; }
+
+    /* Escudo SVG */
+    .escudo-wrap {
+      width:54px; height:62px; flex-shrink:0;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.4));
     }
+
+    .hdr-txt {}
     .hdr-txt .inst {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:10px; letter-spacing:1.5px;
-      text-transform:uppercase; opacity:.75;
+      font-family:'Outfit', sans-serif;
+      font-size:10px; letter-spacing:1.8px;
+      text-transform:uppercase; opacity:.72; font-weight:500;
     }
     .hdr-txt .title {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:clamp(15px,2.5vw,21px); font-weight:800;
-      color:var(--dor-cla); line-height:1.15;
+      font-family:'Barlow Condensed', sans-serif;
+      font-size:clamp(16px, 2.4vw, 22px); font-weight:800;
+      color:var(--dor-cla); line-height:1.15; letter-spacing:.3px;
+    }
+    .hdr-txt .gerente {
+      font-size:11px; opacity:.68; margin-top:1px;
+      font-weight:400; letter-spacing:.2px;
     }
     .hdr-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
     .hdr-date {
-      background:rgba(255,255,255,.12);
+      background:rgba(255,255,255,.11);
       border:1px solid rgba(255,255,255,.2);
-      padding:4px 12px; border-radius:20px; font-size:11px;
+      padding:4px 13px; border-radius:20px; font-size:11px; font-weight:500;
     }
     .btn-dark {
-      background:rgba(255,255,255,.14);
+      background:rgba(255,255,255,.13);
       border:1px solid rgba(255,255,255,.24);
-      color:#fff; padding:5px 13px; border-radius:20px;
-      font-size:11px; cursor:pointer; transition:background .2s;
-      white-space:nowrap;
+      color:#fff; padding:5px 14px; border-radius:20px;
+      font-size:11px; cursor:pointer; transition:background .2s; font-family:'Outfit',sans-serif;
     }
-    .btn-dark:hover { background:rgba(255,255,255,.26); }
+    .btn-dark:hover { background:rgba(255,255,255,.25); }
 
-    /* ── TABS ── */
+    /* Tabs */
     .tabs-bar {
       display:flex; gap:2px; padding:0 24px;
-      border-top:1px solid rgba(255,255,255,.12);
+      border-top:1px solid rgba(255,255,255,.10);
       overflow-x:auto; scrollbar-width:none;
     }
     .tabs-bar::-webkit-scrollbar { display:none; }
     .tab-btn {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:13px; font-weight:700; letter-spacing:.8px;
-      text-transform:uppercase; padding:9px 22px;
+      font-family:'Barlow Condensed', sans-serif;
+      font-size:13px; font-weight:700; letter-spacing:1px;
+      text-transform:uppercase; padding:9px 24px;
       border:none; cursor:pointer;
-      background:transparent; color:rgba(255,255,255,.55);
-      border-bottom:3px solid transparent;
-      transition:all .2s; white-space:nowrap;
+      background:transparent; color:rgba(255,255,255,.52);
+      border-bottom:3px solid transparent; transition:all .2s; white-space:nowrap;
     }
     .tab-btn:hover { color:rgba(255,255,255,.88); }
     .tab-btn.active {
-      color:var(--dor-cla);
-      border-bottom-color:var(--dor);
-      background:rgba(255,255,255,.07);
+      color:var(--dor-cla); border-bottom-color:var(--dor);
+      background:rgba(255,255,255,.06);
     }
     .tab-btn i { margin-right:6px; }
 
-    /* ── MAIN ── */
-    main { padding:20px 20px 48px; max-width:1600px; margin:0 auto; }
+    /* ══ MAIN ══ */
+    main { padding:20px 20px 50px; max-width:1680px; margin:0 auto; }
 
-    /* ── KPI GRID ── */
+    /* ══ KPI GRID ══ */
     .kpi-grid {
-      display:grid;
-      grid-template-columns:repeat(6,1fr);
+      display:grid; grid-template-columns:repeat(6,1fr);
       gap:10px; margin-bottom:16px;
     }
     .kpi-card {
       background:var(--blanco); border-radius:var(--r);
-      padding:14px 10px; text-align:center;
+      padding:15px 10px; text-align:center;
       box-shadow:var(--sombra); border-top:4px solid var(--dor);
-      transition:transform .2s,box-shadow .2s;
+      transition:transform .2s, box-shadow .2s;
     }
     .kpi-card:hover { transform:translateY(-3px); box-shadow:var(--shov); }
     .kpi-card.hl { border-top-color:var(--v-med); }
     .kpi-val {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:clamp(15px,1.8vw,21px); font-weight:800;
-      color:var(--v-osc); line-height:1.1;
+      font-family:'Barlow Condensed', sans-serif;
+      font-size:clamp(13px,1.5vw,18px); font-weight:800;
+      color:var(--v-osc); line-height:1.1; letter-spacing:.2px;
     }
     .kpi-card.hl .kpi-val { color:var(--v-med); }
     .kpi-lbl {
-      font-size:9px; color:var(--gtxt);
-      text-transform:uppercase; letter-spacing:.6px;
-      margin-top:4px; line-height:1.3;
+      font-size:9.5px; color:var(--gtxt); font-weight:600;
+      text-transform:uppercase; letter-spacing:.7px;
+      margin-top:5px; line-height:1.3;
     }
 
-    /* ── VISTAS ── */
+    /* ══ VISTAS ══ */
     .vista { display:none; }
     .vista.active { display:block; }
 
-    /* ── LAYOUT ── */
+    /* ══ LAYOUT ══ */
     .panel-row { display:grid; gap:14px; margin-bottom:14px; }
-    .c3 { grid-template-columns:280px 1fr 280px; }
+    .c3 { grid-template-columns:270px 1fr 270px; }
     .c1 { grid-template-columns:1fr; }
     .col-flex { display:flex; flex-direction:column; gap:14px; }
 
-    /* ── CARD ── */
+    /* ══ CARD ══ */
     .card {
       background:var(--blanco); border-radius:var(--r);
       padding:18px 16px; box-shadow:var(--sombra);
     }
     .card-title {
-      font-family:'Barlow Condensed',sans-serif;
+      font-family:'Barlow Condensed', sans-serif;
       font-size:13px; font-weight:700;
-      text-transform:uppercase; letter-spacing:.8px;
+      text-transform:uppercase; letter-spacing:.9px;
       color:var(--v-osc); margin-bottom:12px;
-      padding-bottom:8px; border-bottom:2px solid var(--v-pal);
+      padding-bottom:9px; border-bottom:2px solid var(--v-pal);
       display:flex; align-items:center; gap:7px;
     }
     .card-title i { color:var(--dor); font-size:12px; }
 
-    /* ── SEG LABEL ── */
+    /* Etiqueta segmento */
     .seg-label {
       display:inline-flex; align-items:center; gap:6px;
       background:var(--v-pal); border:1px solid var(--v-cla);
       color:var(--v-osc); border-radius:20px;
       padding:4px 12px; font-size:10px; font-weight:600;
-      margin-bottom:12px;
+      margin-bottom:12px; letter-spacing:.2px;
     }
     .seg-label i { color:var(--v-med); }
 
-    /* ── GAUGE ── */
+    /* ══ GAUGE ══ */
     .gauge-wrap {
       position:relative; width:100%; max-width:185px; margin:0 auto 4px;
     }
@@ -174,41 +175,46 @@
       transform:translateX(-50%); text-align:center; width:100%;
     }
     .g-val {
-      font-family:'Barlow Condensed',sans-serif;
+      font-family:'Barlow Condensed', sans-serif;
       font-size:26px; font-weight:800; color:var(--v-osc); line-height:1;
     }
-    .g-sub { font-size:9px; color:var(--gtxt); text-transform:uppercase; }
+    .g-sub { font-size:9px; color:var(--gtxt); text-transform:uppercase; letter-spacing:.4px; }
     .gauge-range {
       display:flex; justify-content:space-between;
       font-size:10px; color:var(--gtxt); padding:0 4px; margin-top:2px;
     }
 
-    /* ── PUESTO ── */
+    /* ══ PUESTO ══ */
     .puesto-badge {
-      text-align:center; margin-top:12px; padding:12px;
-      background:var(--v-pal); border-radius:10px;
-      border:2px dashed var(--v-cla);
+      text-align:center; padding:14px 12px;
+      background:linear-gradient(135deg, var(--v-pal), #d4eddf);
+      border-radius:12px; border:2px solid var(--v-cla);
+      box-shadow:var(--sombra);
     }
+    .puesto-label { font-size:10px; color:var(--gtxt); font-weight:600; letter-spacing:1px; text-transform:uppercase; }
     .puesto-num {
-      font-family:'Barlow Condensed',sans-serif;
-      font-size:46px; font-weight:800; color:var(--v-osc); line-height:1;
+      font-family:'Barlow Condensed', sans-serif;
+      font-size:54px; font-weight:800; color:var(--v-osc); line-height:1;
     }
-    .puesto-of { font-size:13px; color:var(--gtxt); font-weight:600; }
-    .puesto-txt { font-size:10px; color:var(--gtxt); margin-top:2px; }
+    .puesto-of { font-size:12px; color:var(--gtxt); font-weight:600; }
+    .puesto-mun { font-size:10px; color:var(--gtxt); margin-top:2px; }
 
-    /* ── TABLA ── */
-    .tbl-wrap { overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; font-size:11px; min-width:380px; }
-    thead tr { background:var(--v-osc); color:#fff; }
+    /* ══ TABLA ══ */
+    .tbl-scroll { overflow-x:auto; max-height:520px; overflow-y:auto; }
+    table { width:100%; border-collapse:collapse; font-size:11px; min-width:480px; }
+    thead tr { background:var(--v-osc); color:#fff; position:sticky; top:0; z-index:5; }
     thead th {
       padding:9px 10px; text-align:left;
-      font-family:'Barlow Condensed',sans-serif;
+      font-family:'Barlow Condensed', sans-serif;
       font-weight:700; letter-spacing:.6px;
       text-transform:uppercase; font-size:11px; white-space:nowrap;
     }
     tbody tr { border-bottom:1px solid var(--gris); transition:background .15s; }
     tbody tr:hover { background:var(--v-pal); }
-    tbody td { padding:8px 10px; vertical-align:middle; }
+    tbody td { padding:7px 10px; vertical-align:middle; font-size:11px; }
+    .nom-cell { max-width:220px; }
+    .nom-short { font-weight:600; font-size:11px; display:block; }
+    .nom-code { font-size:9px; color:var(--gtxt); }
     .badge {
       display:inline-block; padding:2px 8px;
       border-radius:10px; font-size:10px; font-weight:700;
@@ -216,37 +222,101 @@
     .bg { background:#D1FAE5; color:#065F46; }
     .by { background:#FEF3C7; color:#92400E; }
     .br { background:#FEE2E2; color:#991B1B; }
-    .pbar-wrap { background:var(--gris); border-radius:4px; height:7px; min-width:60px; }
-    .pbar-fill { height:7px; border-radius:4px; }
+    .b0 { background:#F3F4F6; color:#6B7280; }
+    .pbar-wrap { background:var(--gris); border-radius:4px; height:6px; min-width:55px; }
+    .pbar-fill { height:6px; border-radius:4px; }
 
-    /* ── LEYENDA FUNCIONES ── */
+    /* Leyenda funciones */
     .func-legend { display:flex; flex-direction:column; gap:5px; margin-top:10px; }
     .fl-item { display:flex; align-items:flex-start; gap:7px; font-size:11px; line-height:1.3; }
     .fl-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; margin-top:2px; }
 
-    /* ── DARK MODE ── */
+    /* ══ DARK MODE ══ */
     body.dark {
-      --blanco:  #1E2D25; --bg:#141D18; --gris:#2A3D30;
-      --gtxt:#9AB5A0; --txt:#E8F5EE; --v-pal:#1A2E22;
-      --sombra:0 2px 12px rgba(0,0,0,.45);
+      --blanco:  #1C2B22;
+      --bg:      #111A15;
+      --gris:    #273D2E;
+      --gtxt:    #A8C8B2;
+      --txt:     #E2F0E8;
+      --v-pal:   #1A3024;
+      --sombra:  0 2px 16px rgba(0,0,0,.55);
     }
-    body.dark .kpi-val        { color:#6EE7A8; }
-    body.dark .kpi-card.hl .kpi-val { color:#86EFAC; }
-    body.dark thead tr        { background:#0F2018; }
-    body.dark tbody tr:hover  { background:#1A2E22; }
-    body.dark .g-val          { color:#6EE7A8; }
-    body.dark .puesto-num     { color:#6EE7A8; }
+    /* Cards & contenedores */
+    body.dark .card           { background:#1C2B22; border:1px solid #253D2D; }
+    body.dark .kpi-card       { background:#1C2B22; border:1px solid #253D2D; }
 
-    /* ── ANIMACIÓN ── */
+    /* KPI valores */
+    body.dark .kpi-val                  { color:#7EDDA8; }
+    body.dark .kpi-card.hl .kpi-val     { color:#5EC98A; }
+    body.dark .kpi-lbl                  { color:#A8C8B2; }
+
+    /* Títulos de tarjetas */
+    body.dark .card-title               { color:#C8E8D4; border-bottom-color:#253D2D; }
+    body.dark .card-title i             { color:#C8A84B; }
+
+    /* Etiqueta segmento */
+    body.dark .seg-label                { background:#1A3024; border-color:#2E7D52; color:#C8E8D4; }
+
+    /* Textos generales */
+    body.dark body                      { color:#E2F0E8; }
+
+    /* Gauges */
+    body.dark .g-val                    { color:#7EDDA8; }
+    body.dark .g-sub                    { color:#A8C8B2; }
+    body.dark .gauge-range span         { color:#A8C8B2; }
+
+    /* Puesto badge */
+    body.dark .puesto-badge             { background:linear-gradient(135deg,#1A3024,#1F3A2A); border-color:#2E7D52; }
+    body.dark .puesto-num               { color:#7EDDA8; }
+    body.dark .puesto-label             { color:#A8C8B2; }
+    body.dark .puesto-of,
+    body.dark .puesto-mun               { color:#A8C8B2; }
+
+    /* Tabla */
+    body.dark table                     { color:#E2F0E8; }
+    body.dark thead tr                  { background:#0D1F14; }
+    body.dark thead th                  { color:#C8E8D4; }
+    body.dark tbody tr                  { border-bottom-color:#273D2E; }
+    body.dark tbody tr:hover            { background:#1A3024; }
+    body.dark tbody td                  { color:#D8EEE0; }
+    body.dark .nom-short                { color:#E2F0E8; }
+    body.dark .nom-code                 { color:#A8C8B2; }
+
+    /* Badges en dark */
+    body.dark .bg { background:#134E2A; color:#6EE7A8; }
+    body.dark .by { background:#3D2E00; color:#FCD34D; }
+    body.dark .br { background:#3D0D0D; color:#FCA5A5; }
+    body.dark .b0 { background:#253D2D; color:#A8C8B2; }
+
+    /* Barra de progreso vacía */
+    body.dark .pbar-wrap                { background:#273D2E; }
+
+    /* Leyenda funciones */
+    body.dark .fl-item                  { color:#D8EEE0; }
+
+    /* Header fecha */
+    body.dark .hdr-date                 { color:rgba(255,255,255,.8); }
+
+    /* Segmentos / donut texto */
+    body.dark #segPct                   { color:#7EDDA8 !important; }
+
+    /* Footer */
+    body.dark footer                    { background:#0D1F14; }
+
+    /* Progresión mensual texto en cards */
+    body.dark .card [style*="color:var(--gtxt)"] { color:#A8C8B2 !important; }
+    body.dark [id="cierreMesLabel"]     { color:#E2F0E8; }
+
+    /* ══ ANIMACIÓN ══ */
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(14px); }
+      from { opacity:0; transform:translateY(12px); }
       to   { opacity:1; transform:translateY(0); }
     }
     .vista.active .card    { animation:fadeUp .3s ease both; }
     .vista.active .kpi-card { animation:fadeUp .25s ease both; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width:1100px) {
+    /* ══ RESPONSIVE ══ */
+    @media (max-width:1120px) {
       .kpi-grid { grid-template-columns:repeat(3,1fr); }
       .c3 { grid-template-columns:1fr 1fr; }
       .c3 .col-center { grid-column:span 2; order:-1; }
@@ -254,36 +324,140 @@
     @media (max-width:680px) {
       main { padding:10px 10px 40px; }
       .hdr-top { padding:10px 14px; }
-      .tabs-bar { padding:0 10px; }
+      .tabs-bar { padding:0 8px; }
       .hdr-date { display:none; }
       .kpi-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
       .c3 { grid-template-columns:1fr; }
       .c3 .col-center { grid-column:span 1; order:0; }
       .card { padding:14px 12px; }
-    }
-    @media (max-width:400px) {
-      .logo { width:38px; height:38px; font-size:16px; }
-      .hdr-txt .title { font-size:13px; }
+      .escudo-wrap { width:42px; height:42px; }
     }
 
-    /* ── FOOTER ── */
+    /* ══ FOOTER ══ */
     footer {
       background:var(--v-osc); color:rgba(255,255,255,.55);
       text-align:center; padding:12px 20px; font-size:11px; line-height:1.7;
     }
     footer b { color:var(--dor); }
+
+    /* número con formato */
+    .num { font-family:'Barlow Condensed',sans-serif; font-weight:700; }
   </style>
 </head>
 <body id="bodyElement">
 
-<!-- ═══════════════════ HEADER ═══════════════════ -->
+<!-- ══════════════════════ HEADER ══════════════════════ -->
 <header>
   <div class="hdr-top">
     <div class="hdr-brand">
-      <div class="logo"><i class="fas fa-landmark"></i></div>
+      <!-- Escudo oficial de Samegua -->
+      <div class="escudo-wrap">
+        <svg viewBox="0 0 200 230" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="shieldClip">
+              <path d="M100 8 C100 8 185 8 185 8 L185 130 Q185 195 100 220 Q15 195 15 130 L15 8 Z"/>
+            </clipPath>
+          </defs>
+
+          <!-- ── Fondo blanco del escudo ── -->
+          <path d="M100 8 C100 8 185 8 185 8 L185 130 Q185 195 100 220 Q15 195 15 130 L15 8 Z"
+                fill="#FFFFFF" stroke="#3B6AAF" stroke-width="4"/>
+
+          <!-- ── SOL (naranja/dorado) detrás de la iglesia ── -->
+          <circle cx="100" cy="52" r="30" fill="#F5A623" clip-path="url(#shieldClip)"/>
+
+          <!-- ── FRANJA DIVISIÓN HORIZONTAL media ── -->
+          <!-- Zona superior: iglesia -->
+          <rect x="15" y="90" width="170" height="2" fill="#3B6AAF" opacity="0.3"/>
+
+          <!-- ── IGLESIA / TEMPLO ── -->
+          <!-- Cuerpo principal iglesia -->
+          <rect x="60" y="58" width="80" height="45" fill="#FFFFFF" clip-path="url(#shieldClip)"/>
+          <!-- Techo/frontón central -->
+          <polygon points="100,42 72,62 128,62" fill="#FFFFFF" clip-path="url(#shieldClip)"/>
+          <!-- Campanario izquierdo -->
+          <rect x="58" y="50" width="14" height="38" fill="#FFFFFF" clip-path="url(#shieldClip)"/>
+          <polygon points="65,44 58,52 72,52" fill="#FFFFFF" clip-path="url(#shieldClip)"/>
+          <!-- Campanario derecho -->
+          <rect x="128" y="50" width="14" height="38" fill="#FFFFFF" clip-path="url(#shieldClip)"/>
+          <polygon points="135,44 128,52 142,52" fill="#FFFFFF" clip-path="url(#shieldClip)"/>
+          <!-- Cruz central (sobre el frontón) -->
+          <line x1="100" y1="35" x2="100" y2="44" stroke="#3B6AAF" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="96"  y1="38" x2="104" y2="38" stroke="#3B6AAF" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Arcos ventanas iglesia (azul) -->
+          <path d="M80,100 L80,82 Q88,74 96,82 L96,100 Z" fill="#3B6AAF" opacity="0.85" clip-path="url(#shieldClip)"/>
+          <path d="M104,100 L104,82 Q112,74 120,82 L120,100 Z" fill="#3B6AAF" opacity="0.85" clip-path="url(#shieldClip)"/>
+          <!-- Arco puerta central -->
+          <path d="M93,103 L93,88 Q100,81 107,88 L107,103 Z" fill="#3B6AAF" clip-path="url(#shieldClip)"/>
+          <!-- Ventanas laterales -->
+          <path d="M63,90 L63,80 Q67,75 71,80 L71,90 Z" fill="#3B6AAF" opacity="0.75" clip-path="url(#shieldClip)"/>
+          <path d="M129,90 L129,80 Q133,75 137,80 L137,90 Z" fill="#3B6AAF" opacity="0.75" clip-path="url(#shieldClip)"/>
+          <!-- Contornos iglesia en azul -->
+          <path d="M58 103 L58 50 L65 44 L72 50 L72 62 L100 42 L128 62 L128 50 L135 44 L142 50 L142 103"
+                fill="none" stroke="#3B6AAF" stroke-width="2" stroke-linejoin="round" clip-path="url(#shieldClip)"/>
+
+          <!-- ── LÍNEA DIVISORIA HORIZONTAL (entre iglesia y plaza) ── -->
+          <line x1="15" y1="103" x2="185" y2="103" stroke="#3B6AAF" stroke-width="1.8"/>
+
+          <!-- ── ZONA MEDIA: Plaza con árboles y fuente ── -->
+          <rect x="15" y="103" width="170" height="40" fill="#E8F5E9" clip-path="url(#shieldClip)"/>
+          <!-- Árboles (círculos verdes con tronco) - 4 árboles -->
+          <!-- Árbol 1 -->
+          <rect x="28" y="128" width="4" height="10" fill="#8B6914" clip-path="url(#shieldClip)"/>
+          <circle cx="30" cy="122" r="10" fill="#5DAD3C" clip-path="url(#shieldClip)"/>
+          <!-- Árbol 2 -->
+          <rect x="50" y="128" width="4" height="10" fill="#8B6914" clip-path="url(#shieldClip)"/>
+          <circle cx="52" cy="122" r="10" fill="#5DAD3C" clip-path="url(#shieldClip)"/>
+          <!-- Árbol 3 -->
+          <rect x="144" y="128" width="4" height="10" fill="#8B6914" clip-path="url(#shieldClip)"/>
+          <circle cx="146" cy="122" r="10" fill="#5DAD3C" clip-path="url(#shieldClip)"/>
+          <!-- Árbol 4 -->
+          <rect x="166" y="128" width="4" height="10" fill="#8B6914" clip-path="url(#shieldClip)"/>
+          <circle cx="168" cy="122" r="10" fill="#5DAD3C" clip-path="url(#shieldClip)"/>
+          <!-- Fuente central -->
+          <ellipse cx="100" cy="132" rx="14" ry="5" fill="#7DC8E8" clip-path="url(#shieldClip)"/>
+          <rect x="97" y="118" width="6" height="14" fill="#AACCE0" clip-path="url(#shieldClip)"/>
+          <ellipse cx="100" cy="118" rx="8" ry="3" fill="#7DC8E8" clip-path="url(#shieldClip)"/>
+
+          <!-- ── LÍNEA DIVISORIA (entre plaza y zona inferior) ── -->
+          <line x1="15" y1="143" x2="185" y2="143" stroke="#3B6AAF" stroke-width="1.5"/>
+          <!-- LÍNEA VERTICAL (divide campo y río) -->
+          <line x1="100" y1="143" x2="100" y2="218" stroke="#3B6AAF" stroke-width="1.5"/>
+
+          <!-- ── ZONA INFERIOR IZQUIERDA: Campo agrícola con árboles frutales ── -->
+          <rect x="15" y="143" width="85" height="75" fill="#7CB87A" clip-path="url(#shieldClip)"/>
+          <!-- Franjas de campo -->
+          <rect x="15" y="155" width="85" height="6" fill="#5A9E58" opacity="0.5" clip-path="url(#shieldClip)"/>
+          <rect x="15" y="168" width="85" height="6" fill="#5A9E58" opacity="0.5" clip-path="url(#shieldClip)"/>
+          <rect x="15" y="181" width="85" height="6" fill="#5A9E58" opacity="0.5" clip-path="url(#shieldClip)"/>
+          <!-- Árboles frutales pequeños -->
+          <circle cx="32" cy="155" r="7" fill="#3D8B3D" clip-path="url(#shieldClip)"/>
+          <circle cx="52" cy="152" r="6" fill="#4CAF50" clip-path="url(#shieldClip)"/>
+          <circle cx="72" cy="155" r="7" fill="#3D8B3D" clip-path="url(#shieldClip)"/>
+          <circle cx="42" cy="170" r="6" fill="#4CAF50" clip-path="url(#shieldClip)"/>
+          <circle cx="62" cy="168" r="7" fill="#3D8B3D" clip-path="url(#shieldClip)"/>
+          <!-- Estrella de mar/fruta (detalle) -->
+          <circle cx="30" cy="185" r="5" fill="#F5A623" opacity="0.8" clip-path="url(#shieldClip)"/>
+
+          <!-- ── ZONA INFERIOR DERECHA: Terreno árido + laguna/agua ── -->
+          <rect x="100" y="143" width="85" height="75" fill="#C9A06A" clip-path="url(#shieldClip)"/>
+          <!-- Colinas/montículos de tierra -->
+          <ellipse cx="140" cy="170" rx="30" ry="18" fill="#B8864A" clip-path="url(#shieldClip)"/>
+          <ellipse cx="160" cy="178" rx="22" ry="14" fill="#A0723A" clip-path="url(#shieldClip)"/>
+          <!-- Laguna / cuerpo de agua -->
+          <ellipse cx="130" cy="190" rx="24" ry="14" fill="#5BACD6" clip-path="url(#shieldClip)"/>
+          <ellipse cx="130" cy="190" rx="20" ry="10" fill="#7DC8E8" clip-path="url(#shieldClip)"/>
+
+          <!-- ── BORDE DEL ESCUDO (encima de todo) ── -->
+          <path d="M100 8 C100 8 185 8 185 8 L185 130 Q185 195 100 220 Q15 195 15 130 L15 8 Z"
+                fill="none" stroke="#3B6AAF" stroke-width="4"/>
+        </svg>
+      </div>
+
       <div class="hdr-txt">
         <div class="inst">Municipalidad Distrital de Samegua &nbsp;·&nbsp; Moquegua – Perú</div>
         <div class="title">Proyectos de Inversión – Ejecución del Gasto 2026</div>
+        <div class="gerente"><i class="fas fa-user-tie" style="margin-right:5px;opacity:.7;font-size:10px;"></i>Ing. Carlos Hoover Centurión Yáñez</div>
       </div>
     </div>
     <div class="hdr-right">
@@ -303,20 +477,20 @@
   </div>
 </header>
 
-<!-- ═══════════════════ MAIN ═══════════════════ -->
+<!-- ══════════════════════ MAIN ══════════════════════ -->
 <main>
 
   <!-- KPI cards -->
   <div class="kpi-grid">
-    <div class="kpi-card">   <div class="kpi-val" id="kpiPia" >—</div><div class="kpi-lbl">PIA</div></div>
-    <div class="kpi-card hl"><div class="kpi-val" id="kpiPim" >—</div><div class="kpi-lbl">PIM</div></div>
+    <div class="kpi-card">   <div class="kpi-val" id="kpiPia">—</div><div class="kpi-lbl">PIA</div></div>
+    <div class="kpi-card hl"><div class="kpi-val" id="kpiPim">—</div><div class="kpi-lbl">PIM</div></div>
     <div class="kpi-card">   <div class="kpi-val" id="kpiCert">—</div><div class="kpi-lbl">Certificación</div></div>
     <div class="kpi-card">   <div class="kpi-val" id="kpiComp">—</div><div class="kpi-lbl">Compro. Mensual</div></div>
-    <div class="kpi-card hl"><div class="kpi-val" id="kpiDev" >—</div><div class="kpi-lbl">Devengado</div></div>
-    <div class="kpi-card">   <div class="kpi-val" id="kpiGir" >—</div><div class="kpi-lbl">Girado</div></div>
+    <div class="kpi-card hl"><div class="kpi-val" id="kpiDev">—</div><div class="kpi-lbl">Devengado</div></div>
+    <div class="kpi-card">   <div class="kpi-val" id="kpiGir">—</div><div class="kpi-lbl">Girado</div></div>
   </div>
 
-  <!-- ════ VISTA RANKING ════ -->
+  <!-- ════ RANKING ════ -->
   <div id="vistaRanking" class="vista active">
     <div class="panel-row c3">
 
@@ -325,12 +499,12 @@
         <div class="card">
           <div class="card-title"><i class="fas fa-chart-pie"></i>Avance % Devengado/PIM</div>
           <div class="seg-label"><i class="fas fa-check-circle"></i>Actividades y Proyectos</div>
-          <div class="gauge-wrap" style="max-width:170px;">
-            <canvas id="chartSegPie" height="150"></canvas>
+          <div class="gauge-wrap" style="max-width:165px;">
+            <canvas id="chartSegPie" height="145"></canvas>
           </div>
           <div style="text-align:center;margin-top:8px;">
             <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--v-osc);" id="segPct">—</div>
-            <div style="font-size:10px;color:var(--gtxt);">Devengado / PIM</div>
+            <div style="font-size:10px;color:var(--gtxt);font-weight:500;">Devengado / PIM</div>
             <div style="font-size:10px;color:var(--gtxt);margin-top:3px;" id="segMontos"></div>
           </div>
         </div>
@@ -340,16 +514,27 @@
         </div>
       </div>
 
-      <!-- Centro: Ranking (orden de columnas en tablet) -->
+      <!-- Centro: Ranking barras -->
       <div class="card col-center" style="overflow:hidden;">
-        <div class="card-title"><i class="fas fa-medal"></i>Ranking Avance % – 21 Municipios Moquegua</div>
-        <div style="position:relative;width:100%;height:600px;">
+        <div class="card-title"><i class="fas fa-medal"></i>Ranking Avance % – 21 Municipios de Moquegua</div>
+        <div style="position:relative;width:100%;height:620px;">
           <canvas id="chartRankBar"></canvas>
         </div>
       </div>
 
-      <!-- Derecha -->
+      <!-- Derecha: Puesto → Gauges -->
       <div class="col-flex">
+        <!-- PUESTO PRIMERO -->
+        <div class="card">
+          <div class="card-title"><i class="fas fa-ranking-star"></i>Posición en Ranking</div>
+          <div class="puesto-badge">
+            <div class="puesto-label">Puesto</div>
+            <div class="puesto-num" id="puestoBadge">—</div>
+            <div class="puesto-of" id="puestoOf"></div>
+            <div class="puesto-mun">Municipalidad Distrital de Samegua</div>
+          </div>
+        </div>
+        <!-- GAUGE AVANCE ANUAL -->
         <div class="card">
           <div class="card-title"><i class="fas fa-circle-notch"></i>Total Avance Anual</div>
           <div class="gauge-wrap">
@@ -361,9 +546,10 @@
           </div>
           <div class="gauge-range"><span>0%</span><span>100%</span></div>
         </div>
+        <!-- GAUGE PROGRAMADO -->
         <div class="card">
           <div class="card-title"><i class="fas fa-calendar-check"></i>Avance Programado Mensual</div>
-          <div style="font-size:10px;color:var(--gtxt);text-align:center;margin-bottom:6px;">
+          <div style="font-size:10px;color:var(--gtxt);text-align:center;margin-bottom:6px;font-weight:500;">
             al cierre de: <strong id="cierreMesLabel">—</strong>
           </div>
           <div class="gauge-wrap">
@@ -374,18 +560,12 @@
             </div>
           </div>
           <div class="gauge-range"><span>0%</span><span>100%</span></div>
-          <div class="puesto-badge">
-            <div style="font-size:10px;color:var(--gtxt);margin-bottom:1px;letter-spacing:.5px;">PUESTO</div>
-            <div class="puesto-num" id="puestoBadge">—</div>
-            <div class="puesto-of" id="puestoOf"></div>
-            <div class="puesto-txt">Municipalidad Distrital de Samegua</div>
-          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ════ VISTA FUNCIONES ════ -->
+  <!-- ════ FUNCIONES ════ -->
   <div id="vistaFunciones" class="vista">
     <div class="panel-row c3">
       <div class="card">
@@ -434,28 +614,19 @@
     </div>
   </div>
 
-  <!-- ════ VISTA PROYECTOS ════ -->
+  <!-- ════ PROYECTOS ════ -->
   <div id="vistaProyectos" class="vista">
     <div class="panel-row c3">
       <div class="card">
-        <div class="card-title"><i class="fas fa-chart-pie"></i>Distribución Proyectos (PIM)</div>
+        <div class="card-title"><i class="fas fa-chart-pie"></i>Distribución Proyectos con Ejecución (Devengado)</div>
         <div class="seg-label"><i class="fas fa-check-circle"></i>Actividades y Proyectos</div>
         <canvas id="chartProyPie"></canvas>
       </div>
-      <div class="card tbl-wrap col-center">
-        <div class="card-title"><i class="fas fa-table"></i>Tabla de Proyectos</div>
-        <table>
-          <thead>
-            <tr>
-              <th>Proyecto</th>
-              <th>PIM</th>
-              <th>Devengado</th>
-              <th>Avance</th>
-              <th>Progreso</th>
-            </tr>
-          </thead>
-          <tbody id="bodyProyectos"></tbody>
-        </table>
+      <div class="card col-center">
+        <div class="card-title"><i class="fas fa-chart-bar"></i>Top Proyectos por Avance %</div>
+        <div style="position:relative;height:340px;">
+          <canvas id="chartProyBar"></canvas>
+        </div>
       </div>
       <div class="col-flex">
         <div class="card">
@@ -482,6 +653,28 @@
         </div>
       </div>
     </div>
+    <!-- TABLA COMPLETA -->
+    <div class="panel-row c1">
+      <div class="card">
+        <div class="card-title"><i class="fas fa-table"></i>Todos los Proyectos – Ordenados por Avance % (Mayor a Menor)</div>
+        <div class="tbl-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Código</th>
+                <th>Proyecto</th>
+                <th>PIM (S/)</th>
+                <th>Devengado (S/)</th>
+                <th>Avance %</th>
+                <th>Progreso</th>
+              </tr>
+            </thead>
+            <tbody id="bodyProyectos"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
     <div class="panel-row c1">
       <div class="card">
         <div class="card-title"><i class="fas fa-chart-line"></i>Progresión Mensual – Proyectos</div>
@@ -498,306 +691,317 @@
   Actualización: <b>03 Marzo 2026</b>
 </footer>
 
-<!-- ═══════════════════ DATA ═══════════════════ -->
+<!-- ══════════════════════ DATA ══════════════════════ -->
 <script>
-// ============================================================
-//  DATA  |  Fuente: MEF – Consulta Amigable  |  03-Mar-2026
-// ============================================================
 const D = {
-  corte: "03 de Marzo de 2026",
-  total: {
-    pia:               30128622,
-    pim:               44950427,
-    certificacion:     15788067,
-    compromisoMensual:  5536994,
-    devengado:          2985927,
-    girado:             2679234,
-    avance:                 6.6
+  corte:"03 de Marzo de 2026",
+  total:{
+    pia:30128622, pim:44950427, certificacion:15788067,
+    compromisoMensual:5536994, devengado:2985927, girado:2679234, avance:6.6
   },
-  ranking: {
-    // 21 municipios de Moquegua – orden descendente por avance %
-    municipios: [
-      { name:"CHOJATA",                   pim:  3309617, dev: 1980107, av:59.8 },
-      { name:"PUQUINA",                   pim:  5952502, dev: 1458623, av:24.5 },
-      { name:"SAN CRISTOBAL",             pim:  9290094, dev: 1945015, av:20.9 },
-      { name:"QUINISTAQUILLAS",           pim:  1177845, dev:  210864, av:17.9 },
-      { name:"MATALAQUE",                 pim:  1149930, dev:  170133, av:14.8 },
-      { name:"CUCHUMBAYA",                pim:  4396674, dev:  601331, av:13.7 },
-      { name:"UBINAS",                    pim:  2719505, dev:  310265, av:11.4 },
-      { name:"MARISCAL NIETO - MOQUEGUA", pim:185000090, dev:17508356, av: 9.5 },
-      { name:"SANCHEZ CERRO - OMATE",     pim:  7825700, dev:  737765, av: 9.4 },
-      { name:"LLOQUE",                    pim:  2328898, dev:  199765, av: 8.6 },
-      { name:"CARUMAS",                   pim: 16252041, dev: 1376610, av: 8.5 },
-      { name:"PACOCHA",                   pim: 13400807, dev: 1120272, av: 8.4 },
-      { name:"LA CAPILLA",                pim:  3223393, dev:  259586, av: 8.1 },
-      { name:"COALAQUE",                  pim:  1705835, dev:  137226, av: 8.0 },
-      { name:"ILO",                       pim:175748432, dev:12336044, av: 7.0 },
-      { name:"SAN ANTONIO",               pim:222986265, dev:15256412, av: 6.8 },
-      { name:"EL ALGARROBAL",             pim: 77489358, dev: 5228223, av: 6.7 },
-      { name:"SAMEGUA",                   pim: 44950427, dev: 2985927, av: 6.6 },
-      { name:"YUNGA",                     pim:  1798056, dev:  114851, av: 6.4 },
-      { name:"TORATA",                    pim:160605621, dev: 6481989, av: 4.0 },
-      { name:"ICHUÑA",                    pim: 14344496, dev:  556411, av: 3.9 }
+  ranking:{
+    municipios:[
+      {name:"CHOJATA",                   pim:3309617,   dev:1980107,  av:59.8},
+      {name:"PUQUINA",                   pim:5952502,   dev:1458623,  av:24.5},
+      {name:"SAN CRISTOBAL",             pim:9290094,   dev:1945015,  av:20.9},
+      {name:"QUINISTAQUILLAS",           pim:1177845,   dev:210864,   av:17.9},
+      {name:"MATALAQUE",                 pim:1149930,   dev:170133,   av:14.8},
+      {name:"CUCHUMBAYA",                pim:4396674,   dev:601331,   av:13.7},
+      {name:"UBINAS",                    pim:2719505,   dev:310265,   av:11.4},
+      {name:"MARISCAL NIETO - MOQUEGUA", pim:185000090, dev:17508356, av:9.5},
+      {name:"SANCHEZ CERRO - OMATE",     pim:7825700,   dev:737765,   av:9.4},
+      {name:"LLOQUE",                    pim:2328898,   dev:199765,   av:8.6},
+      {name:"CARUMAS",                   pim:16252041,  dev:1376610,  av:8.5},
+      {name:"PACOCHA",                   pim:13400807,  dev:1120272,  av:8.4},
+      {name:"LA CAPILLA",                pim:3223393,   dev:259586,   av:8.1},
+      {name:"COALAQUE",                  pim:1705835,   dev:137226,   av:8.0},
+      {name:"ILO",                       pim:175748432, dev:12336044, av:7.0},
+      {name:"SAN ANTONIO",               pim:222986265, dev:15256412, av:6.8},
+      {name:"EL ALGARROBAL",             pim:77489358,  dev:5228223,  av:6.7},
+      {name:"SAMEGUA",                   pim:44950427,  dev:2985927,  av:6.6},
+      {name:"YUNGA",                     pim:1798056,   dev:114851,   av:6.4},
+      {name:"TORATA",                    pim:160605621, dev:6481989,  av:4.0},
+      {name:"ICHUÑA",                    pim:14344496,  dev:556411,   av:3.9}
     ],
-    avanceTotal:       6.6,
-    avanceProgramado: 25.2,
-    puesto:           18,
-    total:            21,
-    cierreMes:        "Febrero",
-    progresion: [
-      { mes:"Enero",  av:0.0 },
-      { mes:"Feb.",   av:2.1 },
-      { mes:"Mar.*",  av:6.6 }
-    ]
+    avanceTotal:6.6, avanceProgramado:25.2, puesto:18, total:21,
+    cierreMes:"Febrero",
+    progresion:[{mes:"Enero",av:0.0},{mes:"Feb.",av:2.1},{mes:"Mar.*",av:6.6}]
   },
-  funciones: [
-    { cod:"05", nom:"Orden Público y Seguridad", pim: 1966685, dev: 334754, av:17.0 },
-    { cod:"03", nom:"Planeamiento y Gestión",    pim:11493191, dev:1115268, av: 9.7 },
-    { cod:"14", nom:"Ambiente",                  pim: 2074681, dev: 176800, av: 8.5 },
-    { cod:"20", nom:"Salud",                     pim:   24609, dev:   1791, av: 7.3 },
-    { cod:"21", nom:"Educación y Deporte",       pim: 1054962, dev:  30317, av: 2.9 }
+  funciones:[
+    {cod:"05",nom:"Orden Público y Seguridad", pim:1966685,  dev:334754,  av:17.0},
+    {cod:"03",nom:"Planeamiento y Gestión",    pim:11493191, dev:1115268, av:9.7},
+    {cod:"14",nom:"Ambiente",                  pim:2074681,  dev:176800,  av:8.5},
+    {cod:"20",nom:"Salud",                     pim:24609,    dev:1791,    av:7.3},
+    {cod:"21",nom:"Educación y Deporte",       pim:1054962,  dev:30317,   av:2.9}
   ],
-  proyectos: [
-    { nom:"Mejora seguridad ciudadana (serenazgo)",       pim:  960685, dev:222062, av:23.1 },
-    { nom:"Otros proyectos menores",                      pim: 5000000, dev:500000, av:10.0 },
-    { nom:"Mejora servicios productivos (fruta)",         pim: 1200000, dev: 95975, av: 8.0 },
-    { nom:"Mejora servicios operativos/institucionales",  pim: 1400000, dev: 64654, av: 4.6 },
-    { nom:"Adquisición sistema tecnología / software",    pim: 1674174, dev: 35206, av: 2.1 },
-    { nom:"Creación movilidad urbana (varios sectores)",  pim: 4308057, dev: 79722, av: 1.8 },
-    { nom:"Mejora transitabilidad calles principales",    pim:  637705, dev:     0, av: 0.0 }
+  // 54 proyectos reales MEF, ordenados por avance % desc
+  proyectos:[
+    {cod:"2502705", nom:"Mejoramiento transitabilidad Av. Andres Avelino Cáceres",                    pim:2109,    dev:1791,   av:84.9},
+    {cod:"2588639", nom:"Construcción captación agua potable (sistema El Distrito)",                  pim:62785,   dev:34266,  av:54.6},
+    {cod:"2628365", nom:"Renovación vías vecinales (movilidad urbana calles vecinales)",              pim:410294,  dev:124164, av:30.3},
+    {cod:"2628215", nom:"Mejoramiento seguridad ciudadana – nueva base serenazgo",                   pim:960685,  dev:222062, av:23.1},
+    {cod:"2707222", nom:"Renovación área cultivo/producción alimentos en II.EE.",                    pim:56567,   dev:9923,   av:17.5},
+    {cod:"2589192", nom:"Construcción captación agua potable El Molino",                              pim:32887,   dev:5452,   av:16.6},
+    {cod:"2193504", nom:"Mejoramiento y fortalecimiento servicios públicos administrativos",          pim:1210000, dev:194815, av:16.1},
+    {cod:"2626147", nom:"Mejoramiento servicios operativos – Saneamiento (atención al cliente)",     pim:506852,  dev:76427,  av:15.1},
+    {cod:"2189259", nom:"Mejoramiento servicio seguridad ciudadana (serenazgo)",                     pim:1000000, dev:112692, av:11.3},
+    {cod:"2447489", nom:"Mejoramiento servicio educativo I.E. Juan Bautista Scarsi Valdivia",        pim:3409341, dev:358611, av:10.5},
+    {cod:"3999999", nom:"Sin Producto (ejecución general)",                                          pim:8622299, dev:853936, av:9.9},
+    {cod:"2673306", nom:"Creación practica deportiva – Parque Los Dinosaurios",                      pim:126171,  dev:11098,  av:8.8},
+    {cod:"2697008", nom:"Mejoramiento apoyo productivo frutales (control mosca de la fruta)",        pim:1200000, dev:93975,  av:7.8},
+    {cod:"2658739", nom:"Creación practica deportiva – Asoc. Vivienda Internacional I Etapa",        pim:95139,   dev:6806,   av:7.2},
+    {cod:"2001621", nom:"Estudios de pre-inversión",                                                 pim:1391864, dev:95915,  av:6.9},
+    {cod:"2204256", nom:"Ampliación y mejoramiento mercado central de abastos",                      pim:217046,  dev:12004,  av:5.5},
+    {cod:"2671196", nom:"Mejoramiento espacios públicos – Parque 07 de Junio",                       pim:193840,  dev:10033,  av:5.2},
+    {cod:"2697665", nom:"Mejoramiento servicios operativos – Competitividad económica digital",      pim:1199995, dev:60145,  av:5.0},
+    {cod:"2543956", nom:"Mejoramiento transitabilidad Asoc. Vivienda San Martín de Porres y otros",  pim:8027779, dev:386115, av:4.8},
+    {cod:"2661292", nom:"Creación movilidad urbana – Asoc. Vivienda Las Begonias",                  pim:38273,   dev:1791,   av:4.7},
+    {cod:"2646260", nom:"Mejoramiento servicios operativos/misionales – Unidad Servicios Sociales",  pim:1400000, dev:64634,  av:4.6},
+    {cod:"2708955", nom:"Mejoramiento producción plantaciones de palto – Asoc. Tumilaca Samegua",    pim:125076,  dev:5500,   av:4.4},
+    {cod:"2569402", nom:"Mejoramiento asistencia técnica cultivo palto en valles del distrito",      pim:722392,  dev:29208,  av:4.0},
+    {cod:"2557623", nom:"Recuperación transitabilidad puente peatonal Anexo El Comun",               pim:1992925, dev:57660,  av:2.9},
+    {cod:"2549816", nom:"Mejoramiento servicio educativo I.E. N°356 Cerrillos Santa Fortunata",      pim:1588977, dev:36887,  av:2.3},
+    {cod:"2663008", nom:"Adquisición sistema tecnología, software, mobiliario y equipo TI",          pim:1674174, dev:35206,  av:2.1},
+    {cod:"2603687", nom:"Creación movilidad urbana – JV Horacio Zeballos Gámez",                    pim:4308057, dev:79615,  av:1.8},
+    {cod:"2679613", nom:"Mejoramiento y ampliación movilidad urbana – JV Samegua",                  pim:302563,  dev:2814,   av:0.9},
+    {cod:"2657933", nom:"Mejoramiento practica deportiva – Estadio Maracaná",                        pim:259993,  dev:2381,   av:0.9},
+    {cod:"2001445", nom:"Construcción pistas y veredas",                                             pim:8542,    dev:0,      av:0.0},
+    {cod:"2016766", nom:"Iniciativa a la competitividad",                                            pim:553252,  dev:0,      av:0.0},
+    {cod:"2149005", nom:"Mejoramiento pistas y veredas JV Belén, Cerrillos y otros",                pim:290000,  dev:0,      av:0.0},
+    {cod:"2342934", nom:"Mejoramiento servicios gestión territorial",                               pim:22500,   dev:0,      av:0.0},
+    {cod:"2495766", nom:"Mejoramiento transitabilidad calles principales del centro de Samegua",     pim:637705,  dev:0,      av:0.0},
+    {cod:"2548626", nom:"Adquisición cargador frontal, cisterna y camioneta; reparación volquete",   pim:10058,   dev:0,      av:0.0},
+    {cod:"2605466", nom:"Creación practica deportiva – Asoc. San Valentín (Cerrillos)",              pim:98924,   dev:0,      av:0.0},
+    {cod:"2644750", nom:"Creación espacios públicos – Parque Temático Recreacional",                 pim:121134,  dev:0,      av:0.0},
+    {cod:"2659721", nom:"Renovación calzada, vereda y mobiliario urbano (calles Manco Cápac y otros)",pim:11000,  dev:0,      av:0.0},
+    {cod:"2661709", nom:"Mejoramiento apoyo desarrollo productivo cultivos flores y hortalizas",     pim:46984,   dev:0,      av:0.0},
+    {cod:"2670311", nom:"Mejoramiento espacios públicos – Parque Recreativo del Niño",               pim:159350,  dev:0,      av:0.0},
+    {cod:"2707109", nom:"Renovación ambiente expendio alimentos y mobiliario en II.EE.",             pim:28735,   dev:0,      av:0.0},
+    {cod:"2708953", nom:"Mejoramiento producción crianza porcinos – Asoc. Porqui Feliz",             pim:159994,  dev:0,      av:0.0},
+    {cod:"2708954", nom:"Mejoramiento servicio gastronomía – Asoc. Ahora Samegua",                  pim:127570,  dev:0,      av:0.0},
+    {cod:"2708956", nom:"Mejoramiento productividad fabricación metalmecánica – Soldaoura",          pim:114963,  dev:0,      av:0.0},
+    {cod:"2708957", nom:"Mejoramiento tecnológico fabricación estructuras metálicas – MetalMec",     pim:136436,  dev:0,      av:0.0},
+    {cod:"2708958", nom:"Mejoramiento alojamiento corredor turístico Samihuaa S.A.C.",               pim:143475,  dev:0,      av:0.0},
+    {cod:"2708959", nom:"Mejoramiento producción estructuras metálicas – Clínica del Fierro",        pim:144579,  dev:0,      av:0.0},
+    {cod:"2708960", nom:"Mejoramiento producción hortalizas con invernaderos – Asoc. Hidropónica",   pim:159912,  dev:0,      av:0.0},
+    {cod:"2708961", nom:"Mejoramiento producción ganado porcino – Asoc. Pecuaria Unidos",            pim:125091,  dev:0,      av:0.0},
+    {cod:"2708962", nom:"Mejoramiento crianza porcinos en pie – Asoc. Criadores El Porcón",          pim:130813,  dev:0,      av:0.0},
+    {cod:"3000001", nom:"Acciones Comunes",                                                          pim:268990,  dev:0,      av:0.0},
+    {cod:"3000735", nom:"Desarrollo medidas intervención protección física frente a peligros",       pim:292054,  dev:0,      av:0.0},
+    {cod:"3008848", nom:"Residuos sólidos del ámbito municipal dispuestos adecuadamente",            pim:0,       dev:0,      av:0.0},
+    {cod:"3033251", nom:"Familias saludables – cuidado infantil y lactancia materna (< 36 meses)",  pim:20283,   dev:0,      av:0.0}
   ]
 };
 </script>
 
-<!-- ═══════════════════ SCRIPT ═══════════════════ -->
+<!-- ══════════════════════ SCRIPT ══════════════════════ -->
 <script>
-// Registrar plugin globalmente
 Chart.register(ChartDataLabels);
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ── PALETA ── */
-  const VD  = '#1B4D35';
-  const VM  = '#2E7D52';
-  const DOr = '#C8A84B';
-  const DOo = '#A07830';
-  const TRK = '#E0E6E2';
-  const P_FUNC = [VD, VM, DOr, '#4CAF80', '#A07830'];
-  const P_PROY = [VD, VM, DOr, '#4CAF80', '#A07830', '#6EE7A8', '#FBBF24'];
+  /* ── COLORES ── */
+  const VD  = '#1B4D35', VM = '#2E7D52', VC='#4CAF80';
+  const DOr = '#C8A84B', DOo = '#A07830';
+  const TRK = '#DDE5E0';
+  const FUNC_PAL = ['#1B4D35','#2E7D52','#C8A84B','#4CAF80','#A07830'];
+  const PIE_PAL  = ['#1B4D35','#2E7D52','#C8A84B','#4CAF80','#A07830',
+                    '#6EE7A8','#FBBF24','#86EFAC','#60A5FA','#F97316','#A78BFA'];
 
   /* ── HELPERS ── */
-  const fmt = n => {
-    if (n >= 1e6) return 'S/ ' + (n/1e6).toFixed(1) + ' mill.';
-    if (n >= 1e3) return 'S/ ' + (n/1e3).toFixed(0) + ' mil';
-    return 'S/ ' + n.toFixed(0);
+  // Formato exacto con separador de miles, sin decimales innecesarios
+  const fmtN = n => {
+    if(n === 0) return 'S/ 0';
+    return 'S/ ' + Math.round(n).toLocaleString('es-PE');
+  };
+  // Formato abreviado para tooltips y ejes
+  const fmtShort = n => {
+    if(n>=1e6) return 'S/ '+(n/1e6).toFixed(1)+' M';
+    if(n>=1e3) return 'S/ '+(n/1e3).toFixed(0)+' K';
+    return 'S/ '+n.toFixed(0);
   };
 
-  const mkGauge = (id, val, max=100) => {
-    const v = Math.min(Math.max(+val,0), max);
-    return new Chart(document.getElementById(id), {
+  const mkGauge = (id, val) => {
+    const v = Math.min(Math.max(+val,0),100);
+    return new Chart(document.getElementById(id),{
       type:'doughnut',
-      data:{ datasets:[{
-        data:[v, max-v],
-        backgroundColor:[VM, TRK],
-        borderWidth:0, borderRadius:[5,0]
-      }]},
+      data:{datasets:[{data:[v,100-v],backgroundColor:[VM,TRK],borderWidth:0,borderRadius:[5,0]}]},
       options:{
-        cutout:'78%', rotation:-90, circumference:180,
-        plugins:{ legend:{display:false}, tooltip:{enabled:false}, datalabels:{display:false} },
-        animation:{ animateRotate:true, duration:900 }
+        cutout:'78%',rotation:-90,circumference:180,
+        plugins:{legend:{display:false},tooltip:{enabled:false},datalabels:{display:false}},
+        animation:{animateRotate:true,duration:900}
       }
-    });
-  };
-
-  const mkBar = (id, labels, data, colors, horiz=false, maxH=null) => {
-    const bg = Array.isArray(colors) ? colors : Array(data.length).fill(colors);
-    const opts = {
-      indexAxis: horiz ? 'y' : 'x',
-      responsive:true,
-      maintainAspectRatio: maxH ? false : true,
-      plugins:{
-        legend:{display:false},
-        datalabels:{
-          anchor:'end', align:'end',
-          color: ctx => bg[ctx.dataIndex] === DOr ? DOo : VD,
-          font:{size:10, weight:'700'},
-          formatter: v => v+'%'
-        }
-      },
-      scales:{
-        x:{ beginAtZero:true, grid:{color:'rgba(0,0,0,.05)'}, ticks:{font:{size:10}} },
-        y:{ grid:{display:false}, ticks:{font:{size:10}} }
-      }
-    };
-    return new Chart(document.getElementById(id), {
-      type:'bar',
-      data:{ labels, datasets:[{ label:'Avance %', data, backgroundColor:bg, borderRadius:5, borderSkipped:false }] },
-      options: opts
     });
   };
 
   /* ── TABS ── */
   const TABS = ['Ranking','Funciones','Proyectos'];
-  function showVista(key) {
-    TABS.forEach(v => {
-      const isActive = v.toLowerCase() === key.toLowerCase();
-      document.getElementById('tab'+v).classList.toggle('active', isActive);
-      const el = document.getElementById('vista'+v);
-      el.classList.toggle('active', isActive);
-      el.style.display = isActive ? 'block' : 'none';
+  function showVista(key){
+    TABS.forEach(v=>{
+      const on = v.toLowerCase()===key.toLowerCase();
+      document.getElementById('tab'+v).classList.toggle('active',on);
+      const el=document.getElementById('vista'+v);
+      el.classList.toggle('active',on);
+      el.style.display=on?'block':'none';
     });
   }
-  document.getElementById('tabRanking').addEventListener('click',  () => showVista('ranking'));
-  document.getElementById('tabFunciones').addEventListener('click', () => showVista('funciones'));
-  document.getElementById('tabProyectos').addEventListener('click', () => showVista('proyectos'));
+  document.getElementById('tabRanking').onclick   = ()=>showVista('ranking');
+  document.getElementById('tabFunciones').onclick  = ()=>showVista('funciones');
+  document.getElementById('tabProyectos').onclick  = ()=>showVista('proyectos');
 
   /* ── DARK MODE ── */
-  document.getElementById('darkModeToggle').addEventListener('click', () => {
+  document.getElementById('darkModeToggle').onclick = ()=>{
     const dark = document.getElementById('bodyElement').classList.toggle('dark');
     document.getElementById('darkModeToggle').innerHTML = dark
       ? '<i class="fas fa-sun"></i> Modo Claro'
       : '<i class="fas fa-moon"></i> Modo Oscuro';
-  });
+  };
 
   /* ── KPI CARDS ── */
   const t = D.total;
-  document.getElementById('kpiPia').textContent  = fmt(t.pia);
-  document.getElementById('kpiPim').textContent  = fmt(t.pim);
-  document.getElementById('kpiCert').textContent = fmt(t.certificacion);
-  document.getElementById('kpiComp').textContent = fmt(t.compromisoMensual);
-  document.getElementById('kpiDev').textContent  = fmt(t.devengado);
-  document.getElementById('kpiGir').textContent  = fmt(t.girado);
+  document.getElementById('kpiPia').textContent   = fmtN(t.pia);
+  document.getElementById('kpiPim').textContent   = fmtN(t.pim);
+  document.getElementById('kpiCert').textContent  = fmtN(t.certificacion);
+  document.getElementById('kpiComp').textContent  = fmtN(t.compromisoMensual);
+  document.getElementById('kpiDev').textContent   = fmtN(t.devengado);
+  document.getElementById('kpiGir').textContent   = fmtN(t.girado);
 
-  /* ════════════════════════════════════
+  /* ════════════════════════════
      RANKING
-  ════════════════════════════════════ */
+  ════════════════════════════ */
   const R = D.ranking;
-
-  document.getElementById('segPct').textContent        = t.avance + '%';
-  document.getElementById('segMontos').textContent     = fmt(t.devengado) + ' / ' + fmt(t.pim);
-  document.getElementById('gAnualVal').textContent     = t.avance + '%';
-  document.getElementById('gMensVal').textContent      = R.avanceProgramado + '%';
-  document.getElementById('puestoBadge').textContent   = R.puesto;
-  document.getElementById('puestoOf').textContent      = 'de ' + R.total + ' municipios';
+  document.getElementById('segPct').textContent         = t.avance+'%';
+  document.getElementById('segMontos').textContent      = fmtN(t.devengado)+' / '+fmtN(t.pim);
+  document.getElementById('gAnualVal').textContent      = t.avance+'%';
+  document.getElementById('gMensVal').textContent       = R.avanceProgramado+'%';
+  document.getElementById('puestoBadge').textContent    = R.puesto;
+  document.getElementById('puestoOf').textContent       = 'de '+R.total+' municipios';
   document.getElementById('cierreMesLabel').textContent = R.cierreMes;
 
-  // Donut devengado/PIM
-  new Chart(document.getElementById('chartSegPie'), {
+  // Donut devengado/saldo
+  new Chart(document.getElementById('chartSegPie'),{
     type:'doughnut',
     data:{
       labels:['Devengado','Saldo PIM'],
-      datasets:[{
-        data:[t.devengado, t.pim - t.devengado],
-        backgroundColor:[VM, TRK],
-        borderWidth:3, borderColor:'#fff'
-      }]
+      datasets:[{data:[t.devengado,t.pim-t.devengado],backgroundColor:[VM,TRK],borderWidth:3,borderColor:'#fff'}]
     },
     options:{
       cutout:'70%',
       plugins:{
-        legend:{ display:true, position:'bottom', labels:{font:{size:10}, padding:8} },
-        tooltip:{ callbacks:{ label: ctx => ' '+fmt(ctx.raw) } },
-        datalabels:{ display:false }
+        legend:{display:true,position:'bottom',labels:{font:{size:10,family:'Outfit'},padding:8}},
+        tooltip:{callbacks:{label:ctx=>' '+fmtShort(ctx.raw)}},
+        datalabels:{display:false}
       }
     }
   });
 
   // Barras ranking horizontal
-  const rColors = R.municipios.map((m,i) => {
-    if (m.name==='SAMEGUA') return DOr;
-    if (i===0) return '#0F3D22';
-    if (i<=2)  return VD;
+  const rColors = R.municipios.map((m,i)=>{
+    if(m.name==='SAMEGUA') return DOr;
+    if(i===0) return '#0F3D22';
+    if(i<=2)  return VD;
     return VM;
   });
-
-  new Chart(document.getElementById('chartRankBar'), {
+  new Chart(document.getElementById('chartRankBar'),{
     type:'bar',
     data:{
-      labels: R.municipios.map(m => m.name),
-      datasets:[{
-        label:'Avance %',
-        data: R.municipios.map(m => m.av),
-        backgroundColor: rColors,
-        borderRadius:4, borderSkipped:false
-      }]
+      labels:R.municipios.map(m=>m.name),
+      datasets:[{label:'Avance %',data:R.municipios.map(m=>m.av),backgroundColor:rColors,borderRadius:4,borderSkipped:false}]
     },
     options:{
-      indexAxis:'y',
-      responsive:true, maintainAspectRatio:false,
+      indexAxis:'y', responsive:true, maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
         datalabels:{
-          anchor:'end', align:'end',
-          color: ctx => rColors[ctx.dataIndex]===DOr ? DOo : '#1A2E22',
-          font:{ size:10, weight:'700' },
-          formatter: v => v+'%'
+          anchor:'end',align:'end',
+          color:ctx=>rColors[ctx.dataIndex]===DOr?DOo:VD,
+          font:{size:10,weight:'700',family:'Barlow Condensed'},
+          formatter:v=>v+'%'
         },
-        tooltip:{
-          callbacks:{
-            label: ctx => {
-              const m = R.municipios[ctx.dataIndex];
-              return [' Avance: '+m.av+'%', ' PIM: '+fmt(m.pim), ' Devengado: '+fmt(m.dev)];
-            }
-          }
-        }
+        tooltip:{callbacks:{label:ctx=>{
+          const m=R.municipios[ctx.dataIndex];
+          return[' Avance: '+m.av+'%',' PIM: '+fmtShort(m.pim),' Dev: '+fmtShort(m.dev)];
+        }}}
       },
       scales:{
-        x:{ beginAtZero:true, max:65, grid:{color:'rgba(0,0,0,.05)'}, ticks:{font:{size:10}, callback:v=>v+'%'} },
-        y:{
-          grid:{display:false},
-          ticks:{
-            font:{size:10},
-            color: ctx => R.municipios[ctx.index]?.name==='SAMEGUA' ? DOo : '#1A2E22'
-          }
-        }
+        x:{beginAtZero:true,max:65,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},callback:v=>v+'%'}},
+        y:{grid:{display:false},ticks:{font:{size:10},color:ctx=>R.municipios[ctx.index]?.name==='SAMEGUA'?DOo:'#1A2E22'}}
       }
     },
     plugins:[ChartDataLabels]
   });
 
-  // Gauges ranking
   mkGauge('chartRankGaugeAnual', t.avance);
   mkGauge('chartRankGaugeMens',  R.avanceProgramado);
 
   // Progresión mensual
-  mkBar('chartRankMonthBar',
-    R.progresion.map(p=>p.mes),
-    R.progresion.map(p=>p.av),
-    R.progresion.map((_,i)=> i===R.progresion.length-1 ? DOr : VM),
-    false
-  );
+  new Chart(document.getElementById('chartRankMonthBar'),{
+    type:'bar',
+    data:{
+      labels:R.progresion.map(p=>p.mes),
+      datasets:[{label:'Avance %',data:R.progresion.map(p=>p.av),
+        backgroundColor:R.progresion.map((_,i)=>i===R.progresion.length-1?DOr:VM),
+        borderRadius:6,borderSkipped:false}]
+    },
+    options:{
+      responsive:true,
+      plugins:{
+        legend:{display:false},
+        datalabels:{anchor:'end',align:'end',color:VD,font:{size:11,weight:'700'},formatter:v=>v+'%'}
+      },
+      scales:{x:{grid:{display:false},ticks:{font:{size:11}}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},callback:v=>v+'%'}}}
+    },
+    plugins:[ChartDataLabels]
+  });
 
-  /* ════════════════════════════════════
+  /* ════════════════════════════
      FUNCIONES
-  ════════════════════════════════════ */
+  ════════════════════════════ */
   const F = D.funciones;
   const tPimF = F.reduce((s,f)=>s+f.pim,0);
   const tDevF = F.reduce((s,f)=>s+f.dev,0);
   const avF   = ((tDevF/tPimF)*100).toFixed(1);
   document.getElementById('funcGVal').textContent = avF+'%';
 
+  // Ordenar funciones de mayor a menor pim para el pie
+  const fSorted = [...F].sort((a,b)=>b.pim-a.pim);
+
   new Chart(document.getElementById('chartFuncPie'),{
-    type:'doughnut',
+    type:'pie',
     data:{
-      labels:F.map(f=>f.nom),
-      datasets:[{ data:F.map(f=>f.pim), backgroundColor:P_FUNC, borderWidth:3, borderColor:'#fff' }]
+      labels:fSorted.map(f=>f.nom),
+      datasets:[{data:fSorted.map(f=>f.pim),backgroundColor:FUNC_PAL,borderWidth:3,borderColor:'#fff'}]
     },
     options:{
+      rotation:-90,  // empieza desde las 12 en punto
       plugins:{
         legend:{display:false},
-        tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}},
-        datalabels:{display:false}
+        tooltip:{callbacks:{label:ctx=>' '+fmtShort(ctx.raw)+' ('+((ctx.raw/tPimF)*100).toFixed(1)+'%)'}},
+        datalabels:{
+          anchor:'end', align:'end', offset:6,
+          color:ctx=>FUNC_PAL[ctx.dataIndex],
+          backgroundColor:'rgba(255,255,255,0.85)',
+          borderRadius:4, padding:{top:2,bottom:2,left:4,right:4},
+          font:{size:9.5,weight:'700',family:'Barlow Condensed'},
+          formatter:(val,ctx)=>{
+            const pct=((val/tPimF)*100).toFixed(1);
+            const label=fSorted[ctx.dataIndex].nom;
+            const short=label.length>20?label.substring(0,18)+'…':label;
+            return short+'\n'+pct+'%';
+          },
+          clamp:true, clip:false
+        }
       }
-    }
+    },
+    plugins:[ChartDataLabels]
   });
 
   // Leyenda funciones
-  const leg = document.getElementById('funcLegend');
-  F.forEach((f,i)=>{
-    const el=document.createElement('div');
-    el.className='fl-item';
-    el.innerHTML=`<div class="fl-dot" style="background:${P_FUNC[i]}"></div>
-      <span>${f.nom} <strong>${fmt(f.pim)}</strong> · ${f.av}%</span>`;
+  const leg=document.getElementById('funcLegend');
+  fSorted.forEach((f,i)=>{
+    const el=document.createElement('div'); el.className='fl-item';
+    el.innerHTML=`<div class="fl-dot" style="background:${FUNC_PAL[i]}"></div>
+      <span><strong>${f.nom}</strong> — ${fmtN(f.pim)} · <b>${f.av}%</b></span>`;
     leg.appendChild(el);
   });
 
@@ -806,83 +1010,151 @@ document.addEventListener('DOMContentLoaded', () => {
     type:'bar',
     data:{
       labels:F.map(f=>f.nom),
-      datasets:[{ label:'Avance %', data:F.map(f=>f.av), backgroundColor:P_FUNC, borderRadius:5, borderSkipped:false }]
+      datasets:[{label:'Avance %',data:F.map(f=>f.av),backgroundColor:FUNC_PAL,borderRadius:5,borderSkipped:false}]
     },
     options:{
-      indexAxis:'y', responsive:true, maintainAspectRatio:false,
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
-        datalabels:{ anchor:'end', align:'end', color:VD, font:{size:10,weight:'700'}, formatter:v=>v+'%' }
+        datalabels:{anchor:'end',align:'end',color:VD,font:{size:10,weight:'700'},formatter:v=>v+'%'}
       },
       scales:{
-        x:{ beginAtZero:true, grid:{color:'rgba(0,0,0,.05)'}, ticks:{font:{size:10}} },
-        y:{ grid:{display:false}, ticks:{font:{size:10}} }
+        x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},callback:v=>v+'%'}},
+        y:{grid:{display:false},ticks:{font:{size:10}}}
       }
     },
     plugins:[ChartDataLabels]
   });
 
-  mkGauge('chartFuncGauge',      parseFloat(avF));
-  mkGauge('chartFuncGaugeMens',  25.2);
-  mkBar('chartFuncMonthBar',
-    R.progresion.map(p=>p.mes),
-    R.progresion.map(p=>p.av),
-    R.progresion.map((_,i)=>i===R.progresion.length-1?DOr:VM),
-    false
-  );
+  mkGauge('chartFuncGauge',     parseFloat(avF));
+  mkGauge('chartFuncGaugeMens', 25.2);
 
-  /* ════════════════════════════════════
+  new Chart(document.getElementById('chartFuncMonthBar'),{
+    type:'bar',
+    data:{
+      labels:R.progresion.map(p=>p.mes),
+      datasets:[{label:'Avance %',data:R.progresion.map(p=>p.av),
+        backgroundColor:R.progresion.map((_,i)=>i===R.progresion.length-1?DOr:VM),
+        borderRadius:6,borderSkipped:false}]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{display:false},
+        datalabels:{anchor:'end',align:'end',color:VD,font:{size:11,weight:'700'},formatter:v=>v+'%'}},
+      scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'%'}}}
+    },
+    plugins:[ChartDataLabels]
+  });
+
+  /* ════════════════════════════
      PROYECTOS
-  ════════════════════════════════════ */
+  ════════════════════════════ */
   const P = D.proyectos;
   const tPimP = P.reduce((s,p)=>s+p.pim,0);
   const tDevP = P.reduce((s,p)=>s+p.dev,0);
-  const avP   = ((tDevP/tPimP)*100).toFixed(1);
+  const avP   = tPimP>0?((tDevP/tPimP)*100).toFixed(1):'0.0';
   document.getElementById('proyGVal').textContent = avP+'%';
 
+  // Pie: solo proyectos con devengado > 0 (relevantes)
+  const pConDev = [...P].filter(p=>p.dev>0).sort((a,b)=>b.dev-a.dev);
+  const TOP_N = 10;
+  const pTop  = pConDev.slice(0,TOP_N);
+  const pOtros= pConDev.slice(TOP_N);
+  const otrosDev = pOtros.reduce((s,p)=>s+p.dev,0);
+  const pieLabels = pTop.map(p=>p.nom.length>30?p.nom.substring(0,28)+'…':p.nom);
+  const pieData   = pTop.map(p=>p.dev);
+  if(otrosDev>0){ pieLabels.push('Otros proyectos'); pieData.push(otrosDev); }
+
   new Chart(document.getElementById('chartProyPie'),{
-    type:'doughnut',
-    data:{
-      labels:P.map(p=>p.nom),
-      datasets:[{ data:P.map(p=>p.pim), backgroundColor:P_PROY, borderWidth:3, borderColor:'#fff' }]
-    },
+    type:'pie',
+    data:{labels:pieLabels,datasets:[{data:pieData,backgroundColor:PIE_PAL,borderWidth:3,borderColor:'#fff'}]},
     options:{
+      rotation:-90,
       plugins:{
-        legend:{ display:true, position:'bottom', labels:{font:{size:9}, padding:5} },
-        tooltip:{callbacks:{label:ctx=>' '+fmt(ctx.raw)}},
-        datalabels:{display:false}
+        legend:{display:true,position:'bottom',labels:{font:{size:9,family:'Outfit'},padding:5,boxWidth:10}},
+        tooltip:{callbacks:{label:ctx=>' '+fmtShort(ctx.raw)}},
+        datalabels:{
+          anchor:'end',align:'end',offset:4,
+          backgroundColor:'rgba(255,255,255,0.82)',
+          borderRadius:3,padding:{top:1,bottom:1,left:3,right:3},
+          color:ctx=>PIE_PAL[ctx.dataIndex]||VD,
+          font:{size:8.5,weight:'700'},
+          formatter:(val)=>{const pct=((val/tDevP)*100).toFixed(1); return pct+'%';},
+          clamp:true,clip:false,
+          display:ctx=>ctx.dataset.data[ctx.dataIndex]/tDevP>0.03
+        }
       }
-    }
+    },
+    plugins:[ChartDataLabels]
   });
 
-  // Tabla proyectos
+  // Barras top proyectos por avance (los que tienen avance > 0)
+  const pConAv = [...P].filter(p=>p.av>0).slice(0,15);
+  new Chart(document.getElementById('chartProyBar'),{
+    type:'bar',
+    data:{
+      labels:pConAv.map(p=>'#'+p.cod),
+      datasets:[{label:'Avance %',data:pConAv.map(p=>p.av),
+        backgroundColor:pConAv.map(p=>p.av>=15?VM:p.av>=5?DOr:'#82C4A0'),
+        borderRadius:5,borderSkipped:false}]
+    },
+    options:{
+      indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        datalabels:{anchor:'end',align:'end',color:VD,font:{size:10,weight:'700'},formatter:v=>v+'%'},
+        tooltip:{callbacks:{label:ctx=>{
+          const p=pConAv[ctx.dataIndex];
+          return[' '+p.nom.substring(0,50),' Avance: '+p.av+'%',' Devengado: '+fmtN(p.dev)];
+        }}}
+      },
+      scales:{
+        x:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'%',font:{size:10}}},
+        y:{grid:{display:false},ticks:{font:{size:10}}}
+      }
+    },
+    plugins:[ChartDataLabels]
+  });
+
+  // TABLA COMPLETA (todos los proyectos ya ordenados por av desc en el array)
   const tbody = document.getElementById('bodyProyectos');
-  P.forEach(p=>{
-    const bc = p.av>=15?'bg': p.av<5?'br':'by';
-    const fc = p.av>=15?'#2E7D52': p.av<5?'#E53E3E':'#C8A84B';
+  P.forEach((p,idx)=>{
+    const bc = p.av>=15?'bg': p.av>=5?'by': p.av>0?'br':'b0';
+    const fc = p.av>=15?VM : p.av>=5?DOr : p.av>0?'#E53E3E':TRK;
     const w  = Math.min(p.av,100);
     const tr = document.createElement('tr');
     tr.innerHTML=`
-      <td style="max-width:160px;word-break:break-word">${p.nom}</td>
-      <td style="white-space:nowrap">${fmt(p.pim)}</td>
-      <td style="white-space:nowrap">${fmt(p.dev)}</td>
+      <td style="color:var(--gtxt);font-size:10px;text-align:center">${idx+1}</td>
+      <td style="white-space:nowrap;font-size:10px;color:var(--gtxt)">${p.cod}</td>
+      <td class="nom-cell"><span class="nom-short">${p.nom}</span></td>
+      <td style="white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-weight:700">${fmtN(p.pim)}</td>
+      <td style="white-space:nowrap;font-family:'Barlow Condensed',sans-serif;font-weight:700">${fmtN(p.dev)}</td>
       <td><span class="badge ${bc}">${p.av}%</span></td>
-      <td><div class="pbar-wrap"><div class="pbar-fill" style="width:${w}%;background:${fc}"></div></div></td>`;
+      <td><div class="pbar-wrap" style="min-width:60px"><div class="pbar-fill" style="width:${w}%;background:${fc}"></div></div></td>`;
     tbody.appendChild(tr);
   });
 
   mkGauge('chartProyGauge',     parseFloat(avP));
   mkGauge('chartProyGaugeMens', 25.2);
-  mkBar('chartProyMonthBar',
-    R.progresion.map(p=>p.mes),
-    R.progresion.map(p=>p.av),
-    R.progresion.map((_,i)=>i===R.progresion.length-1?DOr:VM),
-    false
-  );
 
-  // Iniciar en Ranking
+  new Chart(document.getElementById('chartProyMonthBar'),{
+    type:'bar',
+    data:{
+      labels:R.progresion.map(p=>p.mes),
+      datasets:[{label:'Avance %',data:R.progresion.map(p=>p.av),
+        backgroundColor:R.progresion.map((_,i)=>i===R.progresion.length-1?DOr:VM),
+        borderRadius:6,borderSkipped:false}]
+    },
+    options:{
+      responsive:true,
+      plugins:{legend:{display:false},
+        datalabels:{anchor:'end',align:'end',color:VD,font:{size:11,weight:'700'},formatter:v=>v+'%'}},
+      scales:{x:{grid:{display:false}},y:{beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},ticks:{callback:v=>v+'%'}}}
+    },
+    plugins:[ChartDataLabels]
+  });
+
   showVista('ranking');
-
 }); // DOMContentLoaded
 </script>
 </body>
