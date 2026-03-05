@@ -1,251 +1,336 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Tabs navegación
-  const tabs = {
-    ranking: document.getElementById('tabRanking'),
-    funciones: document.getElementById('tabFunciones'),
-    proyectos: document.getElementById('tabProyectos')
-  };
-  const vistas = {
-    ranking: document.getElementById('vistaRanking'),
-    funciones: document.getElementById('vistaFunciones'),
-    proyectos: document.getElementById('vistaProyectos')
-  };
+// ============================================================
+//  script.js — Lógica del Dashboard Presupuestal Samegua 2026
+// ============================================================
 
-  function showVista(vistaKey) {
-    Object.values(tabs).forEach(tab => tab.classList.replace('bg-white', 'bg-gray-200'));
-    Object.values(tabs).forEach(tab => tab.classList.replace('dark:bg-gray-800', 'dark:bg-gray-700'));
-    tabs[vistaKey].classList.replace('bg-gray-200', 'bg-white');
-    tabs[vistaKey].classList.replace('dark:bg-gray-700', 'dark:bg-gray-800');
-    Object.values(vistas).forEach(vista => vista.classList.add('hidden'));
-    vistas[vistaKey].classList.remove('hidden');
+document.addEventListener('DOMContentLoaded', () => {
+
+  // ──────────────────────────────────────────
+  //  PALETA DE COLORES
+  // ──────────────────────────────────────────
+  const VERDE      = '#2E7D52';
+  const DORADO     = '#C8A84B';
+  const GRIS_TRACK = '#E0E6E2';
+  const PALETA_FUNC = ['#1B4D35','#2E7D52','#C8A84B','#4CAF80','#A07830'];
+  const PALETA_PROY = ['#1B4D35','#2E7D52','#C8A84B','#4CAF80','#A07830','#6EE7A8','#F5E6B8'];
+
+  // ──────────────────────────────────────────
+  //  HELPER: formatear montos
+  // ──────────────────────────────────────────
+  function fmt(n) {
+    if (n >= 1e6) return 'S/ ' + (n / 1e6).toFixed(1) + ' mill.';
+    if (n >= 1e3) return 'S/ ' + (n / 1e3).toFixed(1) + ' mil';
+    return 'S/ ' + n.toFixed(0);
   }
 
-  tabs.ranking.addEventListener('click', () => showVista('ranking'));
-  tabs.funciones.addEventListener('click', () => showVista('funciones'));
-  tabs.proyectos.addEventListener('click', () => showVista('proyectos'));
-  showVista('ranking'); // Vista inicial
+  // ──────────────────────────────────────────
+  //  HELPER: crear gauge (semicírculo)
+  // ──────────────────────────────────────────
+  function crearGauge(id, value, max) {
+    const v = Math.min(Math.max(value, 0), max);
+    return new Chart(document.getElementById(id), {
+      type: 'doughnut',
+      data: {
+        datasets: [{
+          data: [v, max - v],
+          backgroundColor: [VERDE, GRIS_TRACK],
+          borderWidth: 0,
+          borderRadius: [4, 0]
+        }]
+      },
+      options: {
+        cutout: '78%',
+        rotation: -90,
+        circumference: 180,
+        plugins: {
+          legend:  { display: false },
+          tooltip: { enabled: false }
+        },
+        animation: { animateRotate: true, duration: 900 }
+      }
+    });
+  }
 
-  // Dark Mode Toggle
-  const body = document.getElementById('bodyElement');
-  const toggle = document.getElementById('darkModeToggle');
-  toggle.addEventListener('click', () => {
-    body.classList.toggle('dark');
-    toggle.innerHTML = body.classList.contains('dark') ? '<i class="fas fa-sun"></i> Modo Claro' : '<i class="fas fa-moon"></i> Modo Oscuro';
+  // ──────────────────────────────────────────
+  //  HELPER: crear barra (horizontal o vertical)
+  // ──────────────────────────────────────────
+  function crearBarra(id, labels, data, colors, horizontal) {
+    const bgColors = Array.isArray(colors) ? colors : Array(data.length).fill(colors);
+    return new Chart(document.getElementById(id), {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Avance %',
+          data,
+          backgroundColor: bgColors,
+          borderRadius: 5,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: horizontal ? 'y' : 'x',
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          datalabels: {
+            anchor: 'end',
+            align:  'end',
+            color:  '#1B4D35',
+            font:   { size: 10, weight: '700' },
+            formatter: v => v + '%'
+          }
+        },
+        scales: {
+          x: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' }, ticks: { font: { size: 10 } } },
+          y: { grid: { display: false }, ticks: { font: { size: 10 } } }
+        }
+      },
+      plugins: [ChartDataLabels]
+    });
+  }
+
+  // ──────────────────────────────────────────
+  //  TABS: navegación entre vistas
+  // ──────────────────────────────────────────
+  function showVista(key) {
+    ['Ranking', 'Funciones', 'Proyectos'].forEach(nombre => {
+      const tab   = document.getElementById('tab' + nombre);
+      const vista = document.getElementById('vista' + nombre);
+      const activo = nombre.toLowerCase() === key.toLowerCase();
+      tab.classList.toggle('active', activo);
+      vista.classList.toggle('active', activo);
+      vista.style.display = activo ? 'block' : 'none';
+    });
+  }
+
+  document.getElementById('tabRanking').addEventListener('click',   () => showVista('ranking'));
+  document.getElementById('tabFunciones').addEventListener('click',  () => showVista('funciones'));
+  document.getElementById('tabProyectos').addEventListener('click',  () => showVista('proyectos'));
+
+  // ──────────────────────────────────────────
+  //  DARK MODE
+  // ──────────────────────────────────────────
+  document.getElementById('darkModeToggle').addEventListener('click', () => {
+    document.getElementById('bodyElement').classList.toggle('dark');
+    const isDark = document.getElementById('bodyElement').classList.contains('dark');
+    document.getElementById('darkModeToggle').innerHTML = isDark
+      ? '<i class="fas fa-sun"></i> Modo Claro'
+      : '<i class="fas fa-moon"></i> Modo Oscuro';
   });
 
-  // KPIs generales (se repiten en todas vistas, pero para simplicidad, asume se renderizan en HTML)
+  // ──────────────────────────────────────────
+  //  KPI CARDS: llenar desde datos
+  // ──────────────────────────────────────────
+  const t = dashboardData.total;
+  document.getElementById('kpiPia').textContent  = fmt(t.pia);
+  document.getElementById('kpiPim').textContent  = fmt(t.pim);
+  document.getElementById('kpiCert').textContent = fmt(t.certificacion);
+  document.getElementById('kpiComp').textContent = fmt(t.compromisoMensual);
+  document.getElementById('kpiDev').textContent  = fmt(t.devengado);
+  document.getElementById('kpiGir').textContent  = fmt(t.girado);
 
-  // Vista Ranking
-  // Pie para Segmentar (Actividades vs Proyectos)
-  new Chart(document.getElementById('chartRankingPie'), {
+  // ──────────────────────────────────────────
+  //  VISTA RANKING
+  // ──────────────────────────────────────────
+
+  // Puesto badge
+  document.getElementById('puestoBadge').textContent = dashboardData.ranking.puesto;
+
+  // Gauge textos
+  document.getElementById('gaugeAnualVal').textContent  = dashboardData.ranking.avanceTotal + '%';
+  document.getElementById('gaugeMensualVal').textContent = dashboardData.ranking.avanceProgramado + '%';
+
+  // Segmentar pie
+  const segData = {
+    todos:       { labels: ['Actividades', 'Proyectos'], data: [31390000, 12910000], colors: [VERDE, DORADO] },
+    actividades: { labels: ['Actividades'],              data: [31390000],           colors: [VERDE] },
+    proyectos:   { labels: ['Proyectos'],                data: [12910000],           colors: [DORADO] }
+  };
+
+  document.getElementById('segMontos').textContent =
+    fmt(t.devengado) + ' / ' + fmt(t.pim);
+
+  const segPieChart = new Chart(document.getElementById('chartSegPie'), {
     type: 'doughnut',
     data: {
-      labels: ['Actividades', 'Proyectos'],
-      datasets: [{ data: [50, 50], backgroundColor: ['#3B82F6', '#10B981'] }]
-    },
-    options: { plugins: { datalabels: { color: '#fff' } } }
-  });
-
-  // Barra horizontal para Ranking
-  new Chart(document.getElementById('chartRankingBar'), {
-    type: 'bar',
-    data: {
-      labels: dashboardData.ranking.municipios.map(m => m.name),
+      labels: segData.todos.labels,
       datasets: [{
-        label: 'Avance %',
-        data: dashboardData.ranking.municipios.map(m => m.avance),
-        backgroundColor: '#10B981'
+        data: segData.todos.data,
+        backgroundColor: segData.todos.colors,
+        borderWidth: 3, borderColor: '#fff'
       }]
     },
-    options: { indexAxis: 'y', scales: { x: { beginAtZero: true } } }
+    options: {
+      cutout: '68%',
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { font: { size: 10 }, padding: 8 } },
+        tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) } }
+      }
+    }
   });
 
-  // Gauge para Avance Total
-  new Chart(document.getElementById('chartRankingGauge'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [dashboardData.ranking.avanceTotal, 100 - dashboardData.ranking.avanceTotal],
-        backgroundColor: ['#10B981', '#E5E7EB'],
-        borderWidth: 0
-      }]
-    },
-    options: { cutout: '80%', rotation: -90, circumference: 180, plugins: { legend: false, tooltip: false } }
+  // Botones segmentar
+  document.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.seg-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      const seg = this.dataset.seg;
+      const d   = segData[seg];
+      segPieChart.data.labels                      = d.labels;
+      segPieChart.data.datasets[0].data            = d.data;
+      segPieChart.data.datasets[0].backgroundColor = d.colors;
+      segPieChart.update();
+    });
   });
 
-  // Gauge para Avance Programado
-  new Chart(document.getElementById('chartRankingMonthlyGauge'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [dashboardData.ranking.avanceProgramado, 100 - dashboardData.ranking.avanceProgramado],
-        backgroundColor: ['#10B981', '#E5E7EB'],
-        borderWidth: 0
-      }]
-    },
-    options: { cutout: '80%', rotation: -90, circumference: 180, plugins: { legend: false, tooltip: false } }
-  });
+  // Ranking barras horizontales (SAMEGUA resaltada en dorado)
+  const rankColors = dashboardData.ranking.municipios.map(m =>
+    m.name === 'SAMEGUA' ? DORADO : VERDE
+  );
+  crearBarra(
+    'chartRankingBar',
+    dashboardData.ranking.municipios.map(m => m.name),
+    dashboardData.ranking.municipios.map(m => m.avance),
+    rankColors,
+    true
+  );
 
-  // Barras verticales para Progresión Mensual
-  new Chart(document.getElementById('chartRankingMonthlyBar'), {
-    type: 'bar',
-    data: {
-      labels: dashboardData.ranking.progresionMensual.map(p => p.mes),
-      datasets: [{
-        label: 'Avance %',
-        data: dashboardData.ranking.progresionMensual.map(p => p.avance),
-        backgroundColor: '#3B82F6'
-      }]
-    },
-    options: { scales: { y: { beginAtZero: true } } }
-  });
+  // Gauges Ranking
+  crearGauge('chartRankingGauge',       dashboardData.ranking.avanceTotal,      100);
+  crearGauge('chartRankingMonthlyGauge', dashboardData.ranking.avanceProgramado, 100);
 
-  // Vista Funciones - Similar
-  // Pie para Distribución
+  // Progresión mensual ranking
+  crearBarra(
+    'chartRankingMonthlyBar',
+    dashboardData.ranking.progresionMensual.map(p => p.mes),
+    dashboardData.ranking.progresionMensual.map(p => p.avance),
+    [VERDE, DORADO],
+    false
+  );
+
+  // ──────────────────────────────────────────
+  //  VISTA FUNCIONES
+  // ──────────────────────────────────────────
+
+  const totalPimFunc = dashboardData.funciones.reduce((s, f) => s + f.pim, 0);
+  const totalDevFunc = dashboardData.funciones.reduce((s, f) => s + f.devengado, 0);
+  const avanceFunc   = ((totalDevFunc / totalPimFunc) * 100).toFixed(1);
+  document.getElementById('funcGaugeVal').textContent = avanceFunc + '%';
+
+  // Pie funciones
   new Chart(document.getElementById('chartFuncionesPie'), {
     type: 'doughnut',
     data: {
       labels: dashboardData.funciones.map(f => f.nombre),
       datasets: [{
         data: dashboardData.funciones.map(f => f.pim),
-        backgroundColor: ['#A7F3D0', '#BFDBFE', '#FEF08A', '#FCA5A5', '#DDD6FE']
+        backgroundColor: PALETA_FUNC,
+        borderWidth: 3, borderColor: '#fff'
       }]
+    },
+    options: {
+      plugins: {
+        legend:  { display: false },
+        tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) } }
+      }
     }
   });
 
-  // Barra para Avance por Funciones
-  new Chart(document.getElementById('chartFuncionesBar'), {
-    type: 'bar',
-    data: {
-      labels: dashboardData.funciones.map(f => f.nombre),
-      datasets: [{
-        label: 'Avance %',
-        data: dashboardData.funciones.map(f => f.avance),
-        backgroundColor: '#10B981'
-      }]
-    },
-    options: { indexAxis: 'y' }
+  // Leyenda personalizada funciones
+  const funcLegend = document.getElementById('funcLegend');
+  dashboardData.funciones.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'func-legend-item';
+    item.innerHTML = `
+      <div class="func-legend-dot" style="background:${PALETA_FUNC[i]}"></div>
+      <span>${f.nombre} — <strong>${fmt(f.pim)}</strong></span>`;
+    funcLegend.appendChild(item);
   });
 
-  // Gauges similares (usa datos totales)
-  new Chart(document.getElementById('chartFuncionesGauge'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [dashboardData.total.avance, 100 - dashboardData.total.avance],
-        backgroundColor: ['#10B981', '#E5E7EB'],
-        borderWidth: 0
-      }]
-    },
-    options: { cutout: '80%', rotation: -90, circumference: 180, plugins: { legend: false } }
-  });
+  // Barras funciones
+  crearBarra(
+    'chartFuncionesBar',
+    dashboardData.funciones.map(f => f.nombre),
+    dashboardData.funciones.map(f => f.avance),
+    PALETA_FUNC,
+    true
+  );
 
-  new Chart(document.getElementById('chartFuncionesMonthlyGauge'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [25.2, 100 - 25.2], // Placeholder
-        backgroundColor: ['#10B981', '#E5E7EB'],
-        borderWidth: 0
-      }]
-    },
-    options: { cutout: '80%', rotation: -90, circumference: 180, plugins: { legend: false } }
-  });
+  // Gauges funciones
+  crearGauge('chartFuncionesGauge',        parseFloat(avanceFunc), 100);
+  crearGauge('chartFuncionesMonthlyGauge', 25.2,                   100);
 
-  // Barras mensual funciones (placeholder)
-  new Chart(document.getElementById('chartFuncionesMonthlyBar'), {
-    type: 'bar',
-    data: {
-      labels: ['Enero', 'Febrero'],
-      datasets: [{
-        label: 'Avance %',
-        data: [0, 6.6],
-        backgroundColor: '#3B82F6'
-      }]
-    }
-  });
+  // Progresión mensual funciones
+  crearBarra(
+    'chartFuncionesMonthlyBar',
+    ['Enero', 'Febrero'],
+    [0.0, parseFloat(avanceFunc)],
+    [VERDE, DORADO],
+    false
+  );
 
-  // Vista Proyectos
-  // Pie para Distribución Proyectos
+  // ──────────────────────────────────────────
+  //  VISTA PROYECTOS
+  // ──────────────────────────────────────────
+
+  const totalPimProy = dashboardData.proyectos.reduce((s, p) => s + p.pim, 0);
+  const totalDevProy = dashboardData.proyectos.reduce((s, p) => s + p.devengado, 0);
+  const avanceProy   = ((totalDevProy / totalPimProy) * 100).toFixed(1);
+  document.getElementById('proyGaugeVal').textContent = avanceProy + '%';
+
+  // Pie proyectos
   new Chart(document.getElementById('chartProyectosPie'), {
     type: 'doughnut',
     data: {
       labels: dashboardData.proyectos.map(p => p.nombre),
       datasets: [{
         data: dashboardData.proyectos.map(p => p.pim),
-        backgroundColor: ['#A7F3D0', '#BFDBFE', '#FEF08A', '#FCA5A5', '#DDD6FE', '#A5B4FC', '#FBBF24']
+        backgroundColor: PALETA_PROY,
+        borderWidth: 3, borderColor: '#fff'
       }]
+    },
+    options: {
+      plugins: {
+        legend: { display: true, position: 'bottom', labels: { font: { size: 9 }, padding: 6 } },
+        tooltip: { callbacks: { label: ctx => ' ' + fmt(ctx.raw) } }
+      }
     }
   });
 
-  // Tabla Proyectos con Progress
-  const bodyProyectos = document.getElementById('bodyProyectos');
-  dashboardData.proyectos.forEach((p, index) => {
-    const row = document.createElement('tr');
-    const progressCell = document.createElement('td');
-    progressCell.className = 'px-6 py-4';
-    const canvas = document.createElement('canvas');
-    canvas.id = `progress-proj-${index}`;
-    canvas.width = 50;
-    canvas.height = 50;
-    progressCell.appendChild(canvas);
-
-    row.innerHTML = `
-      <td class="px-6 py-4 whitespace-nowrap text-sm">${p.nombre}</td>
-      <td class="px-6 py-4 text-sm">${(p.pim / 1000).toFixed(0)} k</td>
-      <td class="px-6 py-4 text-sm">${(p.devengado / 1000).toFixed(0)} k</td>
-      <td class="px-6 py-4 text-sm \( {p.avance > 15 ? 'text-green-600' : p.avance < 5 ? 'text-red-600' : 'text-yellow-600'} font-bold"> \){p.avance}%</td>
-    `;
-    row.appendChild(progressCell);
-    bodyProyectos.appendChild(row);
-
-    new Chart(canvas, {
-      type: 'doughnut',
-      data: {
-        datasets: [{
-          data: [p.avance, 100 - p.avance],
-          backgroundColor: [p.avance > 15 ? '#A7F3D0' : p.avance < 5 ? '#FCA5A5' : '#FEF08A', '#E5E7EB']
-        }]
-      },
-      options: { cutout: '70%', plugins: { legend: false } }
-    });
+  // Tabla proyectos
+  const bodyProy = document.getElementById('bodyProyectos');
+  dashboardData.proyectos.forEach(p => {
+    const badgeClass = p.avance >= 15 ? 'badge-green' : p.avance < 5 ? 'badge-red' : 'badge-yellow';
+    const barColor   = p.avance >= 15 ? '#2E7D52' : p.avance < 5 ? '#E53E3E' : '#C8A84B';
+    const barW       = Math.min(p.avance, 100);
+    const tr         = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="max-width:180px;word-break:break-word;">${p.nombre}</td>
+      <td>${fmt(p.pim)}</td>
+      <td>${fmt(p.devengado)}</td>
+      <td><span class="badge ${badgeClass}">${p.avance}%</span></td>
+      <td>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar-fill" style="width:${barW}%;background:${barColor};"></div>
+        </div>
+      </td>`;
+    bodyProy.appendChild(tr);
   });
 
-  // Gauges para Proyectos
-  new Chart(document.getElementById('chartProyectosGauge'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [8.0, 100 - 8.0], // Avance promedio proyectos placeholder
-        backgroundColor: ['#10B981', '#E5E7EB'],
-        borderWidth: 0
-      }]
-    },
-    options: { cutout: '80%', rotation: -90, circumference: 180, plugins: { legend: false } }
-  });
+  // Gauges proyectos
+  crearGauge('chartProyectosGauge',        parseFloat(avanceProy), 100);
+  crearGauge('chartProyectosMonthlyGauge', 25.2,                   100);
 
-  new Chart(document.getElementById('chartProyectosMonthlyGauge'), {
-    type: 'doughnut',
-    data: {
-      datasets: [{
-        data: [25.2, 100 - 25.2],
-        backgroundColor: ['#10B981', '#E5E7EB'],
-        borderWidth: 0
-      }]
-    },
-    options: { cutout: '80%', rotation: -90, circumference: 180, plugins: { legend: false } }
-  });
+  // Progresión mensual proyectos
+  crearBarra(
+    'chartProyectosMonthlyBar',
+    ['Enero', 'Febrero'],
+    [0.0, parseFloat(avanceProy)],
+    [VERDE, DORADO],
+    false
+  );
 
-  // Barras mensual proyectos
-  new Chart(document.getElementById('chartProyectosMonthlyBar'), {
-    type: 'bar',
-    data: {
-      labels: ['Enero', 'Febrero'],
-      datasets: [{
-        label: 'Avance %',
-        data: [0, 5], // Placeholder
-        backgroundColor: '#3B82F6'
-      }]
-    }
-  });
-});
+  // Inicializar en vista Ranking
+  showVista('ranking');
+
+}); // fin DOMContentLoaded
