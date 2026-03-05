@@ -9,333 +9,392 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
+    /* ══════════════════════════════════════
+       VARIABLES & RESET
+    ══════════════════════════════════════ */
     :root {
-      --verde-oscuro:  #1B4D35;
-      --verde-medio:   #2E7D52;
-      --verde-claro:   #4CAF80;
-      --verde-palido:  #E8F5EE;
-      --dorado:        #C8A84B;
-      --dorado-claro:  #F5E6B8;
-      --dorado-oscuro: #A07830;
-      --blanco:        #FFFFFF;
-      --gris-claro:    #F4F6F5;
-      --gris-medio:    #E0E6E2;
-      --gris-texto:    #5A6B62;
-      --texto-oscuro:  #1A2E22;
-      --sombra:        0 2px 12px rgba(27,77,53,0.10);
-      --sombra-hover:  0 6px 24px rgba(27,77,53,0.18);
-      --radio:         12px;
+      --v-osc:   #1B4D35;
+      --v-med:   #2E7D52;
+      --v-cla:   #4CAF80;
+      --v-pal:   #E8F5EE;
+      --dor:     #C8A84B;
+      --dor-cla: #F5E6B8;
+      --dor-osc: #A07830;
+      --blanco:  #FFFFFF;
+      --bg:      #F2F5F3;
+      --gris:    #E0E6E2;
+      --gtxt:    #5A6B62;
+      --txt:     #1A2E22;
+      --sombra:  0 2px 14px rgba(27,77,53,.10);
+      --shov:    0 6px 24px rgba(27,77,53,.18);
+      --r:       12px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
     body {
       font-family: 'DM Sans', sans-serif;
-      background: var(--gris-claro);
-      color: var(--texto-oscuro);
+      background: var(--bg);
+      color: var(--txt);
       min-height: 100vh;
+      font-size: 14px;
     }
 
-    /* ── HEADER ── */
+    /* ══════════════════════════════════════
+       HEADER
+    ══════════════════════════════════════ */
     header {
-      background: linear-gradient(135deg, var(--verde-oscuro) 0%, var(--verde-medio) 100%);
+      background: linear-gradient(135deg, var(--v-osc) 0%, var(--v-med) 100%);
       color: #fff;
-      position: sticky; top: 0; z-index: 100;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      position: sticky; top: 0; z-index: 200;
+      box-shadow: 0 4px 20px rgba(0,0,0,.28);
     }
-    .header-top {
+    .hdr-top {
       display: flex; align-items: center;
       justify-content: space-between;
-      padding: 14px 28px 10px;
+      padding: 12px 24px;
       flex-wrap: wrap; gap: 10px;
     }
-    .header-brand { display: flex; align-items: center; gap: 14px; }
-    .logo-escudo {
-      width: 52px; height: 52px;
-      background: var(--dorado); border-radius: 50%;
+    .hdr-brand { display: flex; align-items: center; gap: 12px; }
+    .logo {
+      width: 48px; height: 48px; flex-shrink: 0;
+      background: var(--dor); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 22px; color: var(--verde-oscuro); font-weight: 800;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2); flex-shrink: 0;
+      font-size: 20px; color: var(--v-osc);
+      box-shadow: 0 2px 8px rgba(0,0,0,.2);
     }
-    .header-brand-text { line-height: 1.3; }
-    .header-brand-text .inst {
+    .hdr-txt .inst {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px; letter-spacing: 1.5px;
-      text-transform: uppercase; opacity: 0.75;
+      font-size: 10px; letter-spacing: 1.5px;
+      text-transform: uppercase; opacity: .72;
     }
-    .header-brand-text .title {
+    .hdr-txt .title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 22px; font-weight: 800;
-      color: var(--dorado-claro); letter-spacing: 0.5px;
+      font-size: 20px; font-weight: 800;
+      color: var(--dor-cla); line-height: 1.1;
     }
-    .header-brand-text .gerente { font-size: 11px; opacity: 0.7; margin-top: 1px; }
-    .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .header-date {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.2);
-      padding: 5px 14px; border-radius: 20px; font-size: 12px;
+    .hdr-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .hdr-date {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 4px 12px; border-radius: 20px; font-size: 11px;
     }
     .btn-dark {
-      background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff; padding: 5px 14px; border-radius: 20px;
-      font-size: 12px; cursor: pointer; transition: background 0.2s;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.24);
+      color: #fff; padding: 4px 12px; border-radius: 20px;
+      font-size: 11px; cursor: pointer; transition: background .2s;
+      white-space: nowrap;
     }
-    .btn-dark:hover { background: rgba(255,255,255,0.28); }
+    .btn-dark:hover { background: rgba(255,255,255,.26); }
 
-    /* ── TABS ── */
+    /* Tabs */
     .tabs-bar {
-      display: flex; gap: 4px;
-      padding: 0 28px;
-      border-top: 1px solid rgba(255,255,255,0.12);
+      display: flex; gap: 2px;
+      padding: 0 24px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      overflow-x: auto;
     }
     .tab-btn {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 14px; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
-      padding: 10px 26px; border: none; cursor: pointer;
-      background: transparent; color: rgba(255,255,255,0.6);
-      border-bottom: 3px solid transparent; transition: all 0.2s;
+      font-size: 13px; font-weight: 700;
+      letter-spacing: .8px; text-transform: uppercase;
+      padding: 9px 22px; border: none; cursor: pointer;
+      background: transparent; color: rgba(255,255,255,.55);
+      border-bottom: 3px solid transparent;
+      transition: all .2s; white-space: nowrap;
     }
-    .tab-btn:hover { color: rgba(255,255,255,0.9); }
+    .tab-btn:hover { color: rgba(255,255,255,.88); }
     .tab-btn.active {
-      color: var(--dorado-claro);
-      border-bottom-color: var(--dorado);
-      background: rgba(255,255,255,0.07);
+      color: var(--dor-cla);
+      border-bottom-color: var(--dor);
+      background: rgba(255,255,255,.07);
     }
-    .tab-btn i { margin-right: 7px; }
+    .tab-btn i { margin-right: 6px; }
 
-    /* ── MAIN ── */
-    main { padding: 24px 28px 40px; max-width: 1600px; margin: 0 auto; }
+    /* ══════════════════════════════════════
+       MAIN
+    ══════════════════════════════════════ */
+    main { padding: 20px 20px 48px; max-width: 1600px; margin: 0 auto; }
 
-    /* ── KPI CARDS ── */
+    /* ══════════════════════════════════════
+       KPI CARDS
+    ══════════════════════════════════════ */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 12px; margin-bottom: 20px;
+      gap: 10px; margin-bottom: 18px;
     }
-    @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3,1fr); } }
-    @media (max-width: 600px)  { .kpi-grid { grid-template-columns: repeat(2,1fr); } }
     .kpi-card {
-      background: var(--blanco); border-radius: var(--radio);
-      padding: 16px 14px; text-align: center;
-      box-shadow: var(--sombra); border-top: 4px solid var(--dorado);
-      transition: transform 0.2s, box-shadow 0.2s;
+      background: var(--blanco); border-radius: var(--r);
+      padding: 14px 10px; text-align: center;
+      box-shadow: var(--sombra); border-top: 4px solid var(--dor);
+      transition: transform .2s, box-shadow .2s;
     }
-    .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--sombra-hover); }
-    .kpi-card .kpi-value {
+    .kpi-card:hover { transform: translateY(-3px); box-shadow: var(--shov); }
+    .kpi-card.hl   { border-top-color: var(--v-med); }
+    .kpi-val {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 22px; font-weight: 800;
-      color: var(--verde-oscuro); line-height: 1.1;
+      font-size: clamp(16px, 2vw, 22px); font-weight: 800;
+      color: var(--v-osc); line-height: 1.1;
     }
-    .kpi-card .kpi-label {
-      font-size: 10px; color: var(--gris-texto);
-      text-transform: uppercase; letter-spacing: 0.8px;
+    .kpi-card.hl .kpi-val { color: var(--v-med); }
+    .kpi-lbl {
+      font-size: 10px; color: var(--gtxt);
+      text-transform: uppercase; letter-spacing: .7px;
       margin-top: 4px; line-height: 1.3;
     }
-    .kpi-card.highlight { border-top-color: var(--verde-medio); }
-    .kpi-card.highlight .kpi-value { color: var(--verde-medio); }
 
-    /* ── VISTAS ── */
+    /* ══════════════════════════════════════
+       VISTAS
+    ══════════════════════════════════════ */
     .vista { display: none; }
     .vista.active { display: block; }
 
-    /* ── PANEL GRID ── */
-    .panel-row { display: grid; gap: 16px; margin-bottom: 16px; }
-    .cols-3 { grid-template-columns: 1fr 2fr 1fr; }
-    .cols-1 { grid-template-columns: 1fr; }
-    @media (max-width: 1100px) { .cols-3 { grid-template-columns: 1fr; } }
+    /* ══════════════════════════════════════
+       LAYOUT PANELS
+    ══════════════════════════════════════ */
+    .panel-row { display: grid; gap: 14px; margin-bottom: 14px; }
+    .c3 { grid-template-columns: 280px 1fr 280px; }
+    .c1 { grid-template-columns: 1fr; }
+    .col-flex { display: flex; flex-direction: column; gap: 14px; }
 
-    /* ── CARD ── */
+    /* ══════════════════════════════════════
+       CARD
+    ══════════════════════════════════════ */
     .card {
-      background: var(--blanco); border-radius: var(--radio);
-      padding: 20px; box-shadow: var(--sombra);
+      background: var(--blanco); border-radius: var(--r);
+      padding: 18px 16px; box-shadow: var(--sombra);
     }
     .card-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 14px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px;
-      color: var(--verde-oscuro); margin-bottom: 16px;
-      padding-bottom: 10px; border-bottom: 2px solid var(--verde-palido);
-      display: flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: .9px;
+      color: var(--v-osc); margin-bottom: 14px;
+      padding-bottom: 9px; border-bottom: 2px solid var(--v-pal);
+      display: flex; align-items: center; gap: 7px;
     }
-    .card-title i { color: var(--dorado); font-size: 13px; }
+    .card-title i { color: var(--dor); font-size: 12px; }
 
-    /* ── SEGMENTAR ── */
-    .seg-btns { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-    .seg-btn {
-      font-size: 11px; font-weight: 600;
-      padding: 5px 14px; border-radius: 20px;
-      border: 2px solid var(--gris-medio);
-      background: var(--gris-claro); cursor: pointer;
-      color: var(--gris-texto); transition: all 0.2s;
+    /* ══════════════════════════════════════
+       ETIQUETA SEGMENTO
+    ══════════════════════════════════════ */
+    .seg-label {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--v-pal); border: 1px solid var(--v-cla);
+      color: var(--v-osc); border-radius: 20px;
+      padding: 5px 14px; font-size: 11px; font-weight: 600;
+      letter-spacing: .3px; margin-bottom: 14px;
     }
-    .seg-btn.active, .seg-btn:hover {
-      background: var(--verde-oscuro);
-      border-color: var(--verde-oscuro); color: #fff;
-    }
+    .seg-label i { color: var(--v-med); }
 
-    /* ── GAUGE ── */
+    /* ══════════════════════════════════════
+       GAUGE
+    ══════════════════════════════════════ */
     .gauge-wrap {
-      position: relative; width: 100%; max-width: 200px; margin: 0 auto 10px;
+      position: relative; width: 100%; max-width: 190px; margin: 0 auto 6px;
     }
-    .gauge-label {
+    .gauge-overlay {
       position: absolute; bottom: 0; left: 50%;
-      transform: translateX(-50%); text-align: center;
+      transform: translateX(-50%); text-align: center; width: 100%;
     }
-    .gauge-value {
+    .g-val {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 28px; font-weight: 800;
-      color: var(--verde-oscuro); line-height: 1;
+      font-size: 26px; font-weight: 800;
+      color: var(--v-osc); line-height: 1;
     }
-    .gauge-sub { font-size: 10px; color: var(--gris-texto); text-transform: uppercase; }
+    .g-sub { font-size: 9px; color: var(--gtxt); text-transform: uppercase; letter-spacing: .4px; }
     .gauge-range {
       display: flex; justify-content: space-between;
-      font-size: 10px; color: var(--gris-texto); margin-top: 4px;
+      font-size: 10px; color: var(--gtxt); margin-top: 2px; padding: 0 4px;
     }
 
-    /* ── PUESTO ── */
+    /* ══════════════════════════════════════
+       PUESTO BADGE
+    ══════════════════════════════════════ */
     .puesto-badge {
-      text-align: center; margin-top: 20px; padding: 14px;
-      background: var(--verde-palido); border-radius: 10px;
-      border: 2px dashed var(--verde-claro);
+      text-align: center; margin-top: 14px; padding: 12px;
+      background: var(--v-pal); border-radius: 10px;
+      border: 2px dashed var(--v-cla);
     }
     .puesto-num {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 52px; font-weight: 800;
-      color: var(--verde-oscuro); line-height: 1;
+      font-size: 48px; font-weight: 800;
+      color: var(--v-osc); line-height: 1;
     }
-    .puesto-txt { font-size: 11px; color: var(--gris-texto); margin-top: 2px; }
+    .puesto-txt { font-size: 10px; color: var(--gtxt); margin-top: 2px; }
 
-    /* ── TABLA PROYECTOS ── */
-    .tabla-container { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: 12px; }
-    thead tr { background: var(--verde-oscuro); color: #fff; }
+    /* ══════════════════════════════════════
+       TABLA
+    ══════════════════════════════════════ */
+    .tbl-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 400px; }
+    thead tr { background: var(--v-osc); color: #fff; }
     thead th {
-      padding: 10px 12px; text-align: left;
+      padding: 9px 10px; text-align: left;
       font-family: 'Barlow Condensed', sans-serif;
-      font-weight: 700; letter-spacing: 0.8px;
+      font-weight: 700; letter-spacing: .7px;
       text-transform: uppercase; font-size: 11px;
+      white-space: nowrap;
     }
-    tbody tr { border-bottom: 1px solid var(--gris-medio); transition: background 0.15s; }
-    tbody tr:hover { background: var(--verde-palido); }
-    tbody td { padding: 9px 12px; }
+    tbody tr { border-bottom: 1px solid var(--gris); transition: background .15s; }
+    tbody tr:hover { background: var(--v-pal); }
+    tbody td { padding: 8px 10px; vertical-align: middle; }
     .badge {
       display: inline-block; padding: 2px 8px;
       border-radius: 10px; font-size: 11px; font-weight: 600;
     }
-    .badge-green  { background: #D1FAE5; color: #065F46; }
-    .badge-yellow { background: #FEF3C7; color: #92400E; }
-    .badge-red    { background: #FEE2E2; color: #991B1B; }
-    .progress-bar-wrap { background: var(--gris-medio); border-radius: 4px; height: 8px; min-width: 80px; }
-    .progress-bar-fill { height: 8px; border-radius: 4px; }
+    .bg   { background:#D1FAE5; color:#065F46; }
+    .by   { background:#FEF3C7; color:#92400E; }
+    .br   { background:#FEE2E2; color:#991B1B; }
+    .pbar-wrap { background:var(--gris); border-radius:4px; height:7px; min-width:70px; }
+    .pbar-fill { height:7px; border-radius:4px; }
 
-    /* ── LEYENDA FUNCIONES ── */
-    .func-legend { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
-    .func-legend-item { display: flex; align-items: center; gap: 8px; font-size: 11px; }
-    .func-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    /* ══════════════════════════════════════
+       LEYENDA FUNCIONES
+    ══════════════════════════════════════ */
+    .func-legend { display:flex; flex-direction:column; gap:5px; margin-top:10px; }
+    .fl-item { display:flex; align-items:center; gap:7px; font-size:11px; }
+    .fl-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
 
-    /* ── COLUMNA FLEX ── */
-    .col-flex { display: flex; flex-direction: column; gap: 16px; }
-
-    /* ── DARK MODE ── */
+    /* ══════════════════════════════════════
+       DARK MODE
+    ══════════════════════════════════════ */
     body.dark {
-      --blanco:       #1E2D25;
-      --gris-claro:   #141D18;
-      --gris-medio:   #2A3D30;
-      --gris-texto:   #9AB5A0;
-      --texto-oscuro: #E8F5EE;
-      --verde-palido: #1A2E22;
-      --sombra:       0 2px 12px rgba(0,0,0,0.4);
+      --blanco:  #1E2D25;
+      --bg:      #141D18;
+      --gris:    #2A3D30;
+      --gtxt:    #9AB5A0;
+      --txt:     #E8F5EE;
+      --v-pal:   #1A2E22;
+      --sombra:  0 2px 12px rgba(0,0,0,.4);
     }
-    body.dark .kpi-card .kpi-value { color: #6EE7A8; }
-    body.dark table thead tr { background: #0F2018; }
-    body.dark tbody tr:hover { background: #1E3028; }
+    body.dark .kpi-val    { color: #6EE7A8; }
+    body.dark .kpi-card.hl .kpi-val { color: #86EFAC; }
+    body.dark thead tr    { background: #0F2018; }
+    body.dark tbody tr:hover { background: #1A2E22; }
+    body.dark .g-val      { color: #86EFAC; }
+    body.dark .puesto-num { color: #86EFAC; }
 
-    /* ── ANIMACIÓN ── */
+    /* ══════════════════════════════════════
+       ANIMACIÓN ENTRADA
+    ══════════════════════════════════════ */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(16px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity:0; transform:translateY(14px); }
+      to   { opacity:1; transform:translateY(0); }
     }
-    .vista.active .card,
-    .vista.active .kpi-card { animation: fadeUp 0.35s ease both; }
+    .vista.active .card   { animation: fadeUp .32s ease both; }
+    .vista.active .kpi-card { animation: fadeUp .28s ease both; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--verde-oscuro); color: rgba(255,255,255,0.6);
-      text-align: center; padding: 14px; font-size: 12px;
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    /* Tablet */
+    @media (max-width: 1100px) {
+      .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+      .c3 { grid-template-columns: 1fr 1fr; }
+      .c3 > *:last-child { grid-column: span 2; }
     }
-    footer span { color: var(--dorado); }
+    /* Mobile */
+    @media (max-width: 680px) {
+      main { padding: 12px 10px 40px; }
+      .hdr-top { padding: 10px 14px; }
+      .tabs-bar { padding: 0 10px; }
+      .hdr-date { display: none; }
+      .hdr-txt .title { font-size: 16px; }
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .c3 { grid-template-columns: 1fr; }
+      .c3 > *:last-child { grid-column: span 1; }
+      .card { padding: 14px 12px; }
+    }
+    @media (max-width: 400px) {
+      .logo { width: 38px; height: 38px; font-size: 16px; }
+      .hdr-txt .title { font-size: 14px; }
+    }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    footer {
+      background: var(--v-osc); color: rgba(255,255,255,.55);
+      text-align: center; padding: 12px 20px; font-size: 11px;
+      line-height: 1.6;
+    }
+    footer b { color: var(--dor); font-weight: 600; }
   </style>
 </head>
 <body id="bodyElement">
 
-<!-- ══════════ HEADER ══════════ -->
+<!-- ══════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════ -->
 <header>
-  <div class="header-top">
-    <div class="header-brand">
-      <div class="logo-escudo"><i class="fas fa-landmark"></i></div>
-      <div class="header-brand-text">
-        <div class="inst">Municipalidad Distrital de Samegua · Gerencia Municipal</div>
+  <div class="hdr-top">
+    <div class="hdr-brand">
+      <div class="logo"><i class="fas fa-landmark"></i></div>
+      <div class="hdr-txt">
+        <div class="inst">Municipalidad Distrital de Samegua</div>
         <div class="title">Proyectos de Inversión – Ejecución del Gasto 2026</div>
-        <div class="gerente">Mg. Carlos Hoover Centurión Yánez</div>
       </div>
     </div>
-    <div class="header-right">
-      <div class="header-date"><i class="fas fa-calendar-alt" style="margin-right:6px;opacity:.7;"></i>Actualización: 20 Febrero 2026 · Fuente: MEF</div>
+    <div class="hdr-right">
+      <div class="hdr-date"><i class="fas fa-calendar-alt" style="margin-right:5px;opacity:.7"></i>Actualización: <b id="fechaCorte">03 Marzo 2026</b> · MEF</div>
       <button class="btn-dark" id="darkModeToggle"><i class="fas fa-moon"></i> Modo Oscuro</button>
     </div>
   </div>
   <div class="tabs-bar">
     <button class="tab-btn active" id="tabRanking"><i class="fas fa-trophy"></i>Ranking</button>
-    <button class="tab-btn" id="tabFunciones"><i class="fas fa-layer-group"></i>Funciones</button>
-    <button class="tab-btn" id="tabProyectos"><i class="fas fa-project-diagram"></i>Proyectos</button>
+    <button class="tab-btn"        id="tabFunciones"><i class="fas fa-layer-group"></i>Funciones</button>
+    <button class="tab-btn"        id="tabProyectos"><i class="fas fa-project-diagram"></i>Proyectos</button>
   </div>
 </header>
 
-<!-- ══════════ MAIN ══════════ -->
+<!-- ══════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════ -->
 <main>
 
-  <!-- KPI CARDS -->
+  <!-- ── KPI CARDS (comunes a las 3 vistas) ── -->
   <div class="kpi-grid">
-    <div class="kpi-card"><div class="kpi-value" id="kpiPia">—</div><div class="kpi-label">PIA</div></div>
-    <div class="kpi-card highlight"><div class="kpi-value" id="kpiPim">—</div><div class="kpi-label">PIM</div></div>
-    <div class="kpi-card"><div class="kpi-value" id="kpiCert">—</div><div class="kpi-label">Certificación</div></div>
-    <div class="kpi-card"><div class="kpi-value" id="kpiComp">—</div><div class="kpi-label">Compromi. Mensual</div></div>
-    <div class="kpi-card highlight"><div class="kpi-value" id="kpiDev">—</div><div class="kpi-label">Devengado</div></div>
-    <div class="kpi-card"><div class="kpi-value" id="kpiGir">—</div><div class="kpi-label">Girado</div></div>
+    <div class="kpi-card">   <div class="kpi-val" id="kpiPia" >—</div><div class="kpi-lbl">PIA</div></div>
+    <div class="kpi-card hl"><div class="kpi-val" id="kpiPim" >—</div><div class="kpi-lbl">PIM</div></div>
+    <div class="kpi-card">   <div class="kpi-val" id="kpiCert">—</div><div class="kpi-lbl">Certificación</div></div>
+    <div class="kpi-card">   <div class="kpi-val" id="kpiComp">—</div><div class="kpi-lbl">Compro. Mensual</div></div>
+    <div class="kpi-card hl"><div class="kpi-val" id="kpiDev" >—</div><div class="kpi-lbl">Devengado</div></div>
+    <div class="kpi-card">   <div class="kpi-val" id="kpiGir" >—</div><div class="kpi-lbl">Girado</div></div>
   </div>
 
-  <!-- ══ VISTA RANKING ══ -->
+  <!-- ════════════════════════════════
+       VISTA RANKING
+  ════════════════════════════════ -->
   <div id="vistaRanking" class="vista active">
-    <div class="panel-row cols-3">
+    <div class="panel-row c3">
 
       <!-- Izquierda -->
       <div class="col-flex">
         <div class="card">
-          <div class="card-title"><i class="fas fa-filter"></i>Segmentar</div>
-          <div class="seg-btns">
-            <button class="seg-btn active" data-seg="todos">Actividades y Proyectos</button>
-            <button class="seg-btn" data-seg="actividades">Sólo Actividades</button>
-            <button class="seg-btn" data-seg="proyectos">Sólo Proyectos</button>
+          <div class="card-title"><i class="fas fa-chart-pie"></i>Avance % Devengado/PIM</div>
+          <div class="seg-label"><i class="fas fa-check-circle"></i>Actividades y Proyectos</div>
+          <div class="gauge-wrap" style="max-width:170px;">
+            <canvas id="chartSegPie" height="150"></canvas>
           </div>
-          <div class="gauge-wrap" style="max-width:180px;">
-            <canvas id="chartSegPie" height="160"></canvas>
-          </div>
-          <div style="text-align:center;margin-top:8px;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--verde-oscuro);" id="segPorcentaje">2.1%</div>
-            <div style="font-size:11px;color:var(--gris-texto);">Avance % Devengado/PIM</div>
-            <div style="font-size:11px;color:var(--gris-texto);margin-top:4px;" id="segMontos"></div>
+          <div style="text-align:center;margin-top:6px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:800;color:var(--v-osc);" id="segPct">6.6%</div>
+            <div style="font-size:10px;color:var(--gtxt);">Devengado / PIM</div>
+            <div style="font-size:10px;color:var(--gtxt);margin-top:3px;" id="segMontos"></div>
           </div>
         </div>
         <div class="card">
           <div class="card-title"><i class="fas fa-chart-bar"></i>Progresión Mensual %</div>
-          <canvas id="chartRankingMonthlyBar" height="150"></canvas>
+          <canvas id="chartRankMonthBar" height="160"></canvas>
         </div>
       </div>
 
-      <!-- Centro: Ranking barras -->
-      <div class="card">
-        <div class="card-title"><i class="fas fa-medal"></i>Ranking de Avance % Municipalidades</div>
-        <canvas id="chartRankingBar"></canvas>
+      <!-- Centro: Ranking -->
+      <div class="card" style="overflow-y:auto;">
+        <div class="card-title"><i class="fas fa-medal"></i>Ranking de Avance % – 21 Municipios de Moquegua</div>
+        <div style="position:relative;width:100%;height:580px;">
+          <canvas id="chartRankBar"></canvas>
+        </div>
       </div>
 
       <!-- Derecha: Gauges + Puesto -->
@@ -343,50 +402,55 @@
         <div class="card">
           <div class="card-title"><i class="fas fa-circle-notch"></i>Total Avance Anual</div>
           <div class="gauge-wrap">
-            <canvas id="chartRankingGauge" height="140"></canvas>
-            <div class="gauge-label" style="bottom:10px;">
-              <div class="gauge-value" id="gaugeAnualVal">2.1%</div>
-              <div class="gauge-sub">Devengado / PIM</div>
+            <canvas id="chartRankGaugeAnual" height="130"></canvas>
+            <div class="gauge-overlay" style="bottom:8px;">
+              <div class="g-val" id="gAnualVal">—</div>
+              <div class="g-sub">Devengado / PIM</div>
             </div>
           </div>
           <div class="gauge-range"><span>0%</span><span>100%</span></div>
         </div>
         <div class="card">
           <div class="card-title"><i class="fas fa-calendar-check"></i>Avance Programado Mensual</div>
-          <div style="font-size:10px;color:var(--gris-texto);margin-bottom:8px;text-align:center;">al cierre de: Febrero</div>
+          <div style="font-size:10px;color:var(--gtxt);text-align:center;margin-bottom:6px;">al cierre de: <b id="cierreMesLabel">Febrero</b></div>
           <div class="gauge-wrap">
-            <canvas id="chartRankingMonthlyGauge" height="140"></canvas>
-            <div class="gauge-label" style="bottom:10px;">
-              <div class="gauge-value" id="gaugeMensualVal">25.2%</div>
-              <div class="gauge-sub">Meta mensual</div>
+            <canvas id="chartRankGaugeMens" height="130"></canvas>
+            <div class="gauge-overlay" style="bottom:8px;">
+              <div class="g-val" id="gMensVal">—</div>
+              <div class="g-sub">Meta mensual</div>
             </div>
           </div>
-          <div class="gauge-range"><span>0.0%</span><span>8.3%</span></div>
+          <div class="gauge-range"><span>0%</span><span>100%</span></div>
           <div class="puesto-badge">
-            <div style="font-size:11px;color:var(--gris-texto);margin-bottom:2px;">PUESTO</div>
+            <div style="font-size:10px;color:var(--gtxt);margin-bottom:1px;">PUESTO</div>
             <div class="puesto-num" id="puestoBadge">—</div>
             <div class="puesto-txt">Municipalidad Distrital de Samegua</div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ══ VISTA FUNCIONES ══ -->
+    </div>
+  </div><!-- /vistaRanking -->
+
+  <!-- ════════════════════════════════
+       VISTA FUNCIONES
+  ════════════════════════════════ -->
   <div id="vistaFunciones" class="vista">
-    <div class="panel-row cols-3">
+    <div class="panel-row c3">
 
       <!-- Pie Funciones -->
       <div class="card">
         <div class="card-title"><i class="fas fa-chart-pie"></i>Distribución por Funciones (PIM)</div>
-        <canvas id="chartFuncionesPie"></canvas>
+        <div class="seg-label"><i class="fas fa-check-circle"></i>Actividades y Proyectos</div>
+        <canvas id="chartFuncPie"></canvas>
         <div class="func-legend" id="funcLegend"></div>
       </div>
 
       <!-- Barras Funciones -->
       <div class="card">
         <div class="card-title"><i class="fas fa-bars"></i>Avance por Funciones (%)</div>
-        <canvas id="chartFuncionesBar"></canvas>
+        <div class="seg-label"><i class="fas fa-check-circle"></i>Actividades y Proyectos</div>
+        <canvas id="chartFuncBar"></canvas>
       </div>
 
       <!-- Gauges Funciones -->
@@ -394,10 +458,10 @@
         <div class="card">
           <div class="card-title"><i class="fas fa-circle-notch"></i>Avance Total Funciones</div>
           <div class="gauge-wrap">
-            <canvas id="chartFuncionesGauge" height="140"></canvas>
-            <div class="gauge-label" style="bottom:10px;">
-              <div class="gauge-value" id="funcGaugeVal">—</div>
-              <div class="gauge-sub">Devengado / PIM</div>
+            <canvas id="chartFuncGauge" height="130"></canvas>
+            <div class="gauge-overlay" style="bottom:8px;">
+              <div class="g-val" id="funcGVal">—</div>
+              <div class="g-sub">Devengado / PIM</div>
             </div>
           </div>
           <div class="gauge-range"><span>0%</span><span>100%</span></div>
@@ -405,44 +469,47 @@
         <div class="card">
           <div class="card-title"><i class="fas fa-calendar-check"></i>Avance Programado</div>
           <div class="gauge-wrap">
-            <canvas id="chartFuncionesMonthlyGauge" height="140"></canvas>
-            <div class="gauge-label" style="bottom:10px;">
-              <div class="gauge-value">25.2%</div>
-              <div class="gauge-sub">Meta mensual</div>
+            <canvas id="chartFuncGaugeMens" height="130"></canvas>
+            <div class="gauge-overlay" style="bottom:8px;">
+              <div class="g-val">25.2%</div>
+              <div class="g-sub">Meta mensual</div>
             </div>
           </div>
-          <div class="gauge-range"><span>0.0%</span><span>8.3%</span></div>
+          <div class="gauge-range"><span>0%</span><span>100%</span></div>
         </div>
       </div>
     </div>
 
-    <div class="panel-row cols-1">
+    <div class="panel-row c1">
       <div class="card">
         <div class="card-title"><i class="fas fa-chart-line"></i>Progresión Mensual por Funciones</div>
-        <canvas id="chartFuncionesMonthlyBar" height="100"></canvas>
+        <canvas id="chartFuncMonthBar" height="90"></canvas>
       </div>
     </div>
-  </div>
+  </div><!-- /vistaFunciones -->
 
-  <!-- ══ VISTA PROYECTOS ══ -->
+  <!-- ════════════════════════════════
+       VISTA PROYECTOS
+  ════════════════════════════════ -->
   <div id="vistaProyectos" class="vista">
-    <div class="panel-row cols-3">
+    <div class="panel-row c3">
 
       <!-- Pie Proyectos -->
       <div class="card">
         <div class="card-title"><i class="fas fa-chart-pie"></i>Distribución Proyectos (PIM)</div>
-        <canvas id="chartProyectosPie"></canvas>
+        <div class="seg-label"><i class="fas fa-check-circle"></i>Actividades y Proyectos</div>
+        <canvas id="chartProyPie"></canvas>
       </div>
 
       <!-- Tabla Proyectos -->
-      <div class="card tabla-container">
+      <div class="card tbl-wrap">
         <div class="card-title"><i class="fas fa-table"></i>Tabla de Proyectos</div>
         <table>
           <thead>
             <tr>
               <th>Proyecto</th>
               <th>PIM (S/)</th>
-              <th>Devengado (S/)</th>
+              <th>Devengado</th>
               <th>Avance %</th>
               <th>Progreso</th>
             </tr>
@@ -456,10 +523,10 @@
         <div class="card">
           <div class="card-title"><i class="fas fa-circle-notch"></i>Avance Total Proyectos</div>
           <div class="gauge-wrap">
-            <canvas id="chartProyectosGauge" height="140"></canvas>
-            <div class="gauge-label" style="bottom:10px;">
-              <div class="gauge-value" id="proyGaugeVal">—</div>
-              <div class="gauge-sub">Devengado / PIM</div>
+            <canvas id="chartProyGauge" height="130"></canvas>
+            <div class="gauge-overlay" style="bottom:8px;">
+              <div class="g-val" id="proyGVal">—</div>
+              <div class="g-sub">Devengado / PIM</div>
             </div>
           </div>
           <div class="gauge-range"><span>0%</span><span>100%</span></div>
@@ -467,32 +534,33 @@
         <div class="card">
           <div class="card-title"><i class="fas fa-calendar-check"></i>Avance Programado</div>
           <div class="gauge-wrap">
-            <canvas id="chartProyectosMonthlyGauge" height="140"></canvas>
-            <div class="gauge-label" style="bottom:10px;">
-              <div class="gauge-value">25.2%</div>
-              <div class="gauge-sub">Meta mensual</div>
+            <canvas id="chartProyGaugeMens" height="130"></canvas>
+            <div class="gauge-overlay" style="bottom:8px;">
+              <div class="g-val">25.2%</div>
+              <div class="g-sub">Meta mensual</div>
             </div>
           </div>
-          <div class="gauge-range"><span>0.0%</span><span>8.3%</span></div>
+          <div class="gauge-range"><span>0%</span><span>100%</span></div>
         </div>
       </div>
     </div>
 
-    <div class="panel-row cols-1">
+    <div class="panel-row c1">
       <div class="card">
         <div class="card-title"><i class="fas fa-chart-line"></i>Progresión Mensual Proyectos</div>
-        <canvas id="chartProyectosMonthlyBar" height="100"></canvas>
+        <canvas id="chartProyMonthBar" height="90"></canvas>
       </div>
     </div>
-  </div>
+  </div><!-- /vistaProyectos -->
 
 </main>
 
 <footer>
-  Dashboard generado con datos <span>MEF</span> · Municipalidad Distrital de Samegua · Actualización: <span>20 Febrero 2026</span>
+  Dashboard generado con datos <b>MEF – Consulta Amigable</b> &nbsp;|&nbsp;
+  Municipalidad Distrital de Samegua &nbsp;|&nbsp;
+  Actualización: <b>03 Marzo 2026</b>
 </footer>
 
-<!-- Scripts: data primero, luego lógica -->
 <script src="data.js"></script>
 <script src="script.js"></script>
 </body>
